@@ -1,0 +1,56 @@
+<template>
+  <div class="container">
+    <div class="py-5 text-center">
+      <h2>문제 등록</h2>
+    </div>
+    <form action="${UPLOAD_URL}" method="post" enctype="multipart/form-data" id="problemAdd">
+      <div class="form-group">
+        <label> 문제명 <input type="text" class="form-control" name="title"></label>
+      </div>
+      <div class="form-group">
+        <label> 정답 <input type="text" class="form-control" name="answer"></label>
+      </div>
+      <div class="form-group">
+        <label for="difficultySelect"> 난이도 </label>
+        <select multiple class="form-control" name="difficulty" id="difficultySelect" form="problemAdd">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>
+          문제 <input type="file" class="form-control-file" name="problemImageFile">
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          해설 <input type="file" class="form-control-file" name="solutionImageFile">
+        </label>
+      </div>
+      <input type="submit"/>
+    </form>
+  </div> <!-- /container -->
+
+</template>
+
+<script>
+export default {
+  name : "Upload",
+  data() {
+    return {
+      problemImage: '',
+      solutionImage: '',
+      title: '',
+      answer: '',
+      difficulty: '',
+      UPLOAD_URL: `http://localhost:8080/problems/add`,
+    }
+  },
+  methods: {
+
+  }
+}
+</script>
