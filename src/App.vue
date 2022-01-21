@@ -2,7 +2,14 @@
   <div id="app">
     <Header/>
     <div id="content" class="content">
-      <router-view></router-view>
+      <div class="d-flex bd-highlight">
+        <div class="p-2 flex-fill bd-highlight">
+          <router-view></router-view>
+        </div>
+<!--        <div class="p-2 flex-fill bd-highlight">-->
+<!--          <span></span>-->
+<!--        </div>-->
+      </div>
     </div>
   </div>
 </template>

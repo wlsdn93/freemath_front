@@ -1,5 +1,31 @@
 <template>
   <div>
+    <div class="d-flex align-items-start">
+      <div>
+        <b-dropdown id="dropdown-1" :text="subjectText" class="m-md-2">
+          <b-dropdown-item v-for="(value, index) in subjects" :key="index" @click="setSubject(value)">
+            {{ Object.keys(value).toString()}}
+          </b-dropdown-item>
+        </b-dropdown>
+      </div>
+
+      <div>
+        <b-dropdown id="dropdown-1" :text="statusText" class="m-md-2">
+          <b-dropdown-item v-for="(value, index) in statuses" :key="index" @click="setStatus(value)">
+            {{ Object.keys(value).toString()}}
+          </b-dropdown-item>
+        </b-dropdown>
+      </div>
+
+      <div>
+        <b-dropdown id="dropdown-1" :text="difficultyText" class="m-md-2">
+          <b-dropdown-item v-for="(value, index) in difficulties" :key="index" @click="setDifficulty(value)">
+            {{ Object.keys(value).toString()}}
+          </b-dropdown-item>
+        </b-dropdown>
+      </div>
+    </div>
+
     <table class="table">
     <thead>
     <tr>
@@ -30,7 +56,7 @@
           </li>
 
           <li>
-            <a @click="prev" class="page-link">
+            <a @click="prev()" class="page-link">
               <span> &lt; </span>
             </a>
           </li>
@@ -40,7 +66,7 @@
           </li>
 
           <li>
-            <a @click="next" class="page-link">
+            <a @click="next()" class="page-link">
               <span> &gt; </span>
             </a>
           </li>
@@ -54,7 +80,7 @@
         </ul>
       </nav>
     </div>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -71,25 +97,40 @@ export default {
       startPage: 1,
       tempEndPage: 10,
       endPage: 10,
+      subjectText: '과목', subject: '',
+      subjects: [
+          {"과목": null},
+          {"수학1" : "CommonMath1"},
+          {"수학2" : "CommonMath2"},
+          {"미분과 적분" : "Calculus"},
+          {"확률과 통계" : "ProbabilityAndStatistic"},
+          {"기하와 벡터" : "GeometryAndVector" },
+      ],
+      statusText: '상태', status: '',
+      statuses: [
+          {"상태":null},
+          {"안푼 문제":null},
+          {"틀린 문제":false},
+          {"맞은 문제":true},
+      ],
+      difficultyText: '난이도', difficulty: '',
+      difficulties: [
+        {"난이도":null},
+        {"2점":2},
+        {"3점":3},
+        {"4점":4},
+      ]
     }
   },
   watch: {
     page() {
-      this.axios.get('/problems', {
-        params: {
-          page: this.page,
-         }
-        })
-          .then((response) => {
-            this.problems = response.data.content;
-            this.pageNumber = response.data.page;
-            this.pageSize = response.data.size;
-            this.totalPage = response.data.totalPage;
-            this.startPage = response.data.start;
-            this.endPage = response.data.end;
-            this.pageList = response.data.pageList;
-          })
-    }},
+      this.pageRequest()
+    },
+    difficulty() {
+      this.page = 0
+      this.pageRequest()
+    }
+  },
   created() {
     this.axios.get('/problems', {
       params: {
@@ -128,6 +169,38 @@ export default {
     isCurrPage(page) {
       return this.page === page - 1 ? true : false
     },
+    setSubject(value) {
+      this.subject = Object.values(value).toString()
+      this.subjectText = Object.keys(value).toString()
+      console.log(this.subject)
+    },
+    setStatus(value) {
+      this.status = Object.values(value).toString()
+      this.statusText = Object.keys(value).toString()
+      console.log(this.status)
+    },
+    setDifficulty(value) {
+      this.difficulty = Object.values(value).toString()
+      this.difficultyText = Object.keys(value).toString()
+      console.log(this.difficulty)
+    },
+    pageRequest() {
+      this.axios.get('/problems', {
+        params: {
+          page: this.page,
+          difficulty: this.difficulty
+        }
+      })
+          .then((response) => {
+            this.problems = response.data.content;
+            this.pageNumber = response.data.page;
+            this.pageSize = response.data.size;
+            this.totalPage = response.data.totalPage;
+            this.startPage = response.data.start;
+            this.endPage = response.data.end;
+            this.pageList = response.data.pageList;
+          })
+    }
   }
 }
 </script>

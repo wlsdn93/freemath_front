@@ -46,7 +46,7 @@ export default {
       title: '',
       answer: '',
       difficulty: '',
-      UPLOAD_URL: `http://localhost:8080/problems/add`,
+      UPLOAD_URL: "http://localhost:8080/problems/add",
     }
   },
   methods: {
