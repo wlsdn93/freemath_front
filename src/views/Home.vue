@@ -129,6 +129,10 @@ export default {
     difficulty() {
       this.page = 0
       this.pageRequest()
+    },
+    status() {
+      this.page = 0
+      this.pageRequest()
     }
   },
   created() {
@@ -188,7 +192,8 @@ export default {
       this.axios.get('/problems', {
         params: {
           page: this.page,
-          difficulty: this.difficulty
+          difficulty: this.difficulty,
+          status: this.status,
         }
       })
           .then((response) => {

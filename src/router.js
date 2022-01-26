@@ -4,7 +4,6 @@ import Home from "./views/Home"
 import About from "./views/About"
 import ProblemDetail from "./views/ProblemDetail";
 import Upload from "./views/Upload";
-import Login from "@/views/Login";
 
 Vue.use(VueRouter)
 
@@ -26,11 +25,7 @@ const router = new VueRouter({
         path:"/problems/:id",
         component: ProblemDetail
         },
-        {
-        path:"/login",
-        component: Login
-        },
-    ]
-})
+    ]}
+)
 
 export default router
