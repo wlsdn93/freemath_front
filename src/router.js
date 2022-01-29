@@ -6,6 +6,7 @@ import ProblemDetail from "./views/ProblemDetail";
 import Upload from "./views/Upload";
 import Login from "@/views/Login";
 import Callback from "@/views/Callback";
+import logout from "@/views/logout";
 
 Vue.use(VueRouter)
 
@@ -32,9 +33,15 @@ const router = new VueRouter({
         component: Login
         },
         {
-        path:"/callback",
+        path:"/logout",
+        component: logout
+        },
+        {
+        path:"/callback/:social",
         component: Callback,
-        props: (route) => ({query: route.query.q})
+        props: (route) => ({
+            query: route.query.q,
+            param: route.params})
         },
     ]}
 )
