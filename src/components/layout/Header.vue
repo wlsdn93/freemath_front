@@ -4,28 +4,21 @@
       <div class="container-fluid">
         <a class="navbar-brand" @click="toHome()">
           <span>
-           <b style="color: beige">기출 저장소</b>
+           <b style="color: beige; font-size: xx-large; font-family: BMJUA">기출 저장소</b>
           </span>
         </a>
-        <ul class="nav justify-content-center" style="font-size: x-large">
-          <li class="nav-item">
-            <a class="nav-link" href="#" style="color: crimson">Let's</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" style="color: orangered">Fuck</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" style="color: yellow">The</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" style="color: green">World</a>
-          </li>
+        <ul class="nav justify-content-center" style="font-size: x-large; font-family: BMJUA">
+          <li class="nav-item" style="color: crimson; margin: 10px"> You </li>
+          <li class="nav-item" style="color: orangered; margin: 10px"> can </li>
+          <li class="nav-item" style="color: yellow; margin: 10px"> make </li>
+          <li class="nav-item" style="color: green; margin: 10px"> it </li>
         </ul>
 
-          <div class="text-end">
+          <div class="text-end" style="font-family: BMHANNAAir">
             <button class="b-skeleton-button" v-if="!authorized" @click="toLoginPage()"> Login </button>
+            <span class="b-skeleton-button" v-if="authorized" style="color: aliceblue; font-weight: bold"> {{ role }} </span>
             <span class="b-skeleton-button" v-if="authorized" style="color: aliceblue; font-weight: bold"> {{ name }} </span>
-            <button class="b-skeleton-button" v-if="authorized" @click="logout()"> Logout </button>
+            <b-button variant="dark" v-if="authorized" @click="logout()" style="font-family: BMJUA"> Logout </b-button>
           </div>
 
         </div>
@@ -56,6 +49,7 @@ export default {
       this.authorized = true
       let payload = jwt_decode(jwt);
       this.name = payload.name
+      this.role = payload.role
     } catch (e) {
       this.authorized = false
       console.log("token not found")
@@ -65,8 +59,23 @@ export default {
     return {
       authorized: '',
       name: 'Guest',
+      role: 'student',
     }
   },
 }
 </script>
+<style scoped>
+@font-face {
+  font-family: 'BMJUA';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'BMHANNAAir';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/BMHANNAAir.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+</style>
 

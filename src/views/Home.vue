@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div style="font-family: BMHANNAAir">
     <div class="d-flex align-items-start">
       <div>
-        <b-dropdown id="dropdown-1" :text="subjectText" class="m-md-2">
+        <b-dropdown id="dropdown-1" :text="subjectText" class="m-md-3" >
           <b-dropdown-item v-for="(value, index) in subjects" :key="index" @click="setSubject(value)">
             {{ Object.keys(value).toString()}}
           </b-dropdown-item>
@@ -10,7 +10,7 @@
       </div>
 
       <div>
-        <b-dropdown id="dropdown-1" :text="statusText" class="m-md-2">
+        <b-dropdown id="dropdown-1" :text="statusText" class="m-md-3">
           <b-dropdown-item v-for="(value, index) in statuses" :key="index" @click="setStatus(value)">
             {{ Object.keys(value).toString()}}
           </b-dropdown-item>
@@ -18,7 +18,7 @@
       </div>
 
       <div>
-        <b-dropdown id="dropdown-1" :text="difficultyText" class="m-md-2">
+        <b-dropdown id="dropdown-1" :text="difficultyText" class="m-md-3">
           <b-dropdown-item v-for="(value, index) in difficulties" :key="index" @click="setDifficulty(value)">
             {{ Object.keys(value).toString()}}
           </b-dropdown-item>
@@ -26,7 +26,7 @@
       </div>
     </div>
 
-    <table class="table">
+    <table class="table" style="font-size: large">
     <thead>
     <tr>
       <th scope="col">상 태</th>
@@ -44,8 +44,7 @@
     </tr>
     </tbody>
   </table>
-    <hr class="my-4">
-    <div>
+    <div style="font-size: large">
       <nav style="text-align: center">
         <ul class="pagination justify-content-center">
 
@@ -212,4 +211,10 @@ export default {
 
 <style scoped>
 
+@font-face {
+  font-family: 'BMHANNAAir';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/BMHANNAAir.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 </style>

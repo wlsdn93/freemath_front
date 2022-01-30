@@ -1,6 +1,6 @@
 <template>
   <div class="background" style="flex-direction: column">
-    <h1 style="color: white; font-weight: bold; margin-bottom: 50px"> 로그인 중이에오 ! </h1>
+    <h1 class="greet"> 로그인 중이에오 </h1>
     <div class="ghost">
       <div class="face">
 
@@ -55,6 +55,7 @@ export default {
 }
 </script>
 <style scoped>
+
 .background {
   background-color: #2d2d2d;
   display: flex;
@@ -62,6 +63,21 @@ export default {
   align-items: center;
   min-height: 100vh;
 }
+.greet {
+  color: white;
+  font-weight: bold;
+  margin-bottom: 40px;
+  animation: float 2s infinite ease-in-out;
+  font-family: HSYuji-Regular;
+}
+
+@font-face {
+  font-family: 'HSYuji-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/HSYuji-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .ghost {
   height: 180px;
   width: 140px;
@@ -72,9 +88,23 @@ export default {
   animation: float 2s infinite ease-in-out;
 }
 
+.ghost:hover {
+  opacity: 0.5;
+}
+
 @keyframes float {
+  25% {
+    opacity: 0.4;
+  }
   50% {
     transform: translateY(-35px);
+    opacity: 0.6;
+  }
+  75% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
   }
 
 }
