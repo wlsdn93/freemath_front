@@ -6,7 +6,7 @@ import ProblemDetail from "./views/ProblemDetail";
 import Upload from "./views/Upload";
 import Login from "@/views/Login";
 import Callback from "@/views/Callback";
-import logout from "@/views/logout";
+import Ghost from "@/views/Ghost";
 
 Vue.use(VueRouter)
 
@@ -33,8 +33,8 @@ const router = new VueRouter({
         component: Login
         },
         {
-        path:"/logout",
-        component: logout
+        path:"/ghost",
+        component: Ghost
         },
         {
         path:"/callback/:social",

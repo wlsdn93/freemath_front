@@ -46,7 +46,8 @@ export default {
       location.href='/'
     },
     logout() {
-      location.href='/logout'
+      localStorage.removeItem("access_token")
+      location.href='/'
     }
   },
   mounted() {
