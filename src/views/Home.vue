@@ -1,8 +1,8 @@
 <template>
-  <div style="font-family: BMHANNAAir">
+  <div style="font-size: large; font-family: BMHANNAAir; font-weight: bold">
     <div class="d-flex align-items-start">
       <div>
-        <b-dropdown id="dropdown-1" :text="subjectText" class="m-md-3" >
+        <b-dropdown id="dropdown-1" :text="subjectText" class="m-md-2" >
           <b-dropdown-item v-for="(value, index) in subjects" :key="index" @click="setSubject(value)">
             {{ Object.keys(value).toString()}}
           </b-dropdown-item>
@@ -10,7 +10,7 @@
       </div>
 
       <div>
-        <b-dropdown id="dropdown-1" :text="statusText" class="m-md-3">
+        <b-dropdown id="dropdown-1" :text="statusText" class="m-md-2">
           <b-dropdown-item v-for="(value, index) in statuses" :key="index" @click="setStatus(value)">
             {{ Object.keys(value).toString()}}
           </b-dropdown-item>
@@ -18,7 +18,7 @@
       </div>
 
       <div>
-        <b-dropdown id="dropdown-1" :text="difficultyText" class="m-md-3">
+        <b-dropdown id="dropdown-1" :text="difficultyText" class="m-md-2">
           <b-dropdown-item v-for="(value, index) in difficulties" :key="index" @click="setDifficulty(value)">
             {{ Object.keys(value).toString()}}
           </b-dropdown-item>
@@ -26,7 +26,7 @@
       </div>
     </div>
 
-    <table class="table" style="font-size: large">
+    <table class="table" style="font-size: large; font-family: BMHANNAAir">
     <thead>
     <tr>
       <th scope="col">상 태</th>
@@ -44,19 +44,19 @@
     </tr>
     </tbody>
   </table>
-    <div style="font-size: large">
+    <div>
       <nav style="text-align: center">
         <ul class="pagination justify-content-center">
 
           <li>
             <a @click="first()" class="page-link" >
-              <span> &laquo; </span>
+              <span> 처음 </span>
             </a>
           </li>
 
           <li>
             <a @click="prev()" class="page-link">
-              <span> &lt; </span>
+              <span> 이전 </span>
             </a>
           </li>
 
@@ -66,13 +66,13 @@
 
           <li>
             <a @click="next()" class="page-link">
-              <span> &gt; </span>
+              <span> 다음 </span>
             </a>
           </li>
 
           <li class="page-item">
             <a @click="last()" class="page-link">
-              <span> &raquo; </span>
+              <span> 마지막 </span>
             </a>
           </li>
 

@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <Header/>
+    <div v-if="!$route.path.includes('/callback/')">
+    <CommonNavBar/>
+    </div>
     <div id="content" class="content">
       <div class="d-flex bd-highlight">
         <div class="p-2 flex-fill bd-highlight">
@@ -12,12 +14,12 @@
 </template>
 
 <script>
-import Header from './components/layout/Header.vue'
+import CommonNavBar from './components/layout/CommonNavBar.vue'
 
 export default {
   name: 'App',
   components: {
-    Header,
+    CommonNavBar,
   }
 }
 </script>

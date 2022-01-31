@@ -15,10 +15,10 @@
         </ul>
 
           <div class="text-end" style="font-family: BMHANNAAir">
-            <button class="b-skeleton-button" v-if="!authorized" @click="toLoginPage()"> Login </button>
+            <b-button variant="dark" v-if="!authorized" @click="toLoginPage()" style="font-family: BMJUA; font-size: large"> Login </b-button>
             <span class="b-skeleton-button" v-if="authorized" style="color: aliceblue; font-weight: bold"> {{ role }} </span>
             <span class="b-skeleton-button" v-if="authorized" style="color: aliceblue; font-weight: bold"> {{ name }} </span>
-            <b-button variant="dark" v-if="authorized" @click="logout()" style="font-family: BMJUA"> Logout </b-button>
+            <b-button variant="dark" v-if="authorized" @click="logout()" style="font-family: BMJUA; font-size: large"> Logout </b-button>
           </div>
 
         </div>
@@ -30,7 +30,7 @@
 <script>
 import jwt_decode from "jwt-decode";
 export default {
-  name: 'Header',
+  name: 'MainNavBar',
   methods: {
     toLoginPage() {
       location.href='/login'
