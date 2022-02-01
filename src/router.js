@@ -1,47 +1,47 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
-import Home from "./views/Home"
-import About from "./views/About"
+import Problems from "./views/Problems"
 import ProblemDetail from "./views/ProblemDetail";
 import Upload from "./views/Upload";
 import Login from "@/views/Login";
 import Callback from "@/views/Callback";
 import Ghost from "@/views/Ghost";
+import Welcome from "@/views/Welcome";
 
 Vue.use(VueRouter)
 
 const router = new VueRouter({
     mode: "history",
     routes: [{
-        path:"/",
-        component: Home
+            path:"/problems",
+            component: Problems
         },
         {
-        path:"/about",
-        component: About
+            path:"/problems/:id",
+            component: ProblemDetail
         },
         {
-        path:"/problems/add",
-        component: Upload
+            path:"/admin/problem-add",
+            component: Upload
         },
         {
-        path:"/problems/:id",
-        component: ProblemDetail
+            path:"/login",
+            component: Login
         },
         {
-        path:"/login",
-        component: Login
+            path:"/callback/:social",
+            component: Callback,
+            props: (route) => ({
+                query: route.query.q,
+                param: route.params})
         },
         {
-        path:"/ghost",
-        component: Ghost
+            path:"/ghost",
+            component: Ghost
         },
         {
-        path:"/callback/:social",
-        component: Callback,
-        props: (route) => ({
-            query: route.query.q,
-            param: route.params})
+            path:"/",
+            component: Welcome
         },
     ]}
 )

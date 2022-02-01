@@ -37,11 +37,11 @@ export default {
       location.href='/login'
     },
     toHome() {
-      location.href='/'
+      location.href='/problems'
     },
     logout() {
       localStorage.removeItem("access_token")
-      location.href='/'
+      location.href='/problems'
     }
   },
   mounted() {
@@ -65,18 +65,3 @@ export default {
   },
 }
 </script>
-<style scoped>
-@font-face {
-  font-family: 'BMJUA';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'BMHANNAAir';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/BMHANNAAir.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-</style>
-

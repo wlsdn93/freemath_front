@@ -29,18 +29,21 @@
     <table class="table" style="font-size: large; font-family: BMHANNAAir">
     <thead>
     <tr>
-      <th scope="col">상 태</th>
-      <th scope="col">문제번호</th>
-      <th scope="col">문제명</th>
-      <th scope="col">난이도</th>
+      <th class="col-md-1" style="text-align: center" scope="col">상 태 </th>
+      <th class="col-md-1" style="text-align: center" scope="col">문제번호</th>
+      <th class="col-md-8" style="text-align: center" scope="col">문제명</th>
+      <th class="col-md-2" style="text-align: center" scope="col">난이도</th>
     </tr>
     </thead>
     <tbody>
     <tr v-for="problem in problems" :key="problem.problemId">
-      <td> {{ problem.status }} </td>
-      <td> {{ problem.problemId }} </td>
-      <td><a :href="`/problems/${problem.problemId}`"> {{ problem.title }} </a></td>
-      <td> {{ problem.difficulty }} </td>
+      <td style="text-align: center" >
+        <img v-if="problem.status" src="../assets/done.svg">
+        <img v-if="problem.status===false" src="../assets/wrong.svg">
+      </td>
+      <td style="text-align: center" > {{ problem.problemId }} </td>
+      <td style="text-align: center" ><a :href="`/problems/${problem.problemId}`"> {{ problem.title }} </a></td>
+      <td style="text-align: center" > {{ problem.difficulty }} </td>
     </tr>
     </tbody>
   </table>
@@ -79,7 +82,7 @@
         </ul>
       </nav>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -210,6 +213,8 @@ export default {
            errorRedirectHandler(error.response.status)
         })
     }
+  },
+  components: {
   }
 }
 </script>
@@ -219,11 +224,5 @@ export default {
   font-size: large;
   font-family: BMHANNAAir;
   font-weight: bold;
-}
-@font-face {
-  font-family: 'BMHANNAAir';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/BMHANNAAir.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
 }
 </style>
