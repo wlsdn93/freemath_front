@@ -190,6 +190,12 @@ export default {
           accessToken: this.accessToken
         }
       })
+          .catch((error)=>{
+            if (error.response.status === 401) {
+              alert("You will be redirected to login page because your access-token is not valid")
+              window.location.replace("http://localhost:8081/login")
+            }
+          })
           .then((response) => {
             this.problems = response.data.content;
             this.pageNumber = response.data.page;

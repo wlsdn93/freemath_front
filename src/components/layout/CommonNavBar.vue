@@ -15,6 +15,7 @@
         </ul>
 
           <div class="text-end" style="font-family: BMHANNAAir">
+            <span class="b-skeleton-button" v-if="!authorized" style="color: aliceblue; font-weight: bold"> {{ name }} </span>
             <b-button variant="dark" v-if="!authorized" @click="toLoginPage()" style="font-family: BMJUA; font-size: large"> Login </b-button>
             <span class="b-skeleton-button" v-if="authorized" style="color: aliceblue; font-weight: bold"> {{ role }} </span>
             <span class="b-skeleton-button" v-if="authorized" style="color: aliceblue; font-weight: bold"> {{ name }} </span>
@@ -57,7 +58,7 @@ export default {
   },
   data() {
     return {
-      authorized: '',
+      authorized: false,
       name: 'Guest',
       role: 'student',
     }

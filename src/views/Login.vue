@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="image" src="/naverBtnImage" @click="NaverLogin">
+    <input type="image" src="http://localhost:8080/naverBtnImage" @click="NaverLogin">
   </div>
 </template>
 <script>
