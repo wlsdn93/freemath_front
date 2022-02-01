@@ -1,5 +1,5 @@
 <template>
-  <div style="font-size: large; font-family: BMHANNAAir; font-weight: bold">
+  <div class="background">
     <div class="d-flex align-items-start">
       <div>
         <b-dropdown id="dropdown-1" :text="subjectText" class="m-md-2" >
@@ -83,6 +83,7 @@
 </template>
 
 <script>
+import {errorRedirectHandler} from '../Utils';
 export default {
   name: "Home",
   data() {
@@ -190,31 +191,35 @@ export default {
           accessToken: this.accessToken
         }
       })
-          .catch((error)=>{
-            if (error.response.status === 403) {
-              alert("You will be redirected to login page because your access-token is not valid")
-              window.location.replace("http://localhost:8081/login")
-            } else if (error.response.status === 401) {
-              alert("You are not allowed to access here")
-              window.location.replace("http://localhost:8081/")
-            }
-          })
-          .then((response) => {
-            this.problems = response.data.content;
-            this.pageNumber = response.data.page;
-            this.pageSize = response.data.size;
-            this.totalPage = response.data.totalPage;
-            this.startPage = response.data.start;
-            this.endPage = response.data.end;
-            this.pageList = response.data.pageList;
-          })
+        .then((response)=> {
+          if(response.status != 200) {
+            throw response.status
+          }
+        return response
+        })
+        .then((response) => {
+          this.problems = response.data.content;
+          this.pageNumber = response.data.page;
+          this.pageSize = response.data.size;
+          this.totalPage = response.data.totalPage;
+          this.startPage = response.data.start;
+          this.endPage = response.data.end;
+          this.pageList = response.data.pageList;
+        })
+        .catch((error)=>{
+           errorRedirectHandler(error.response.status)
+        })
     }
   }
 }
 </script>
 
 <style scoped>
-
+.background {
+  font-size: large;
+  font-family: BMHANNAAir;
+  font-weight: bold;
+}
 @font-face {
   font-family: 'BMHANNAAir';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/BMHANNAAir.woff') format('woff');
