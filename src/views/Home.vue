@@ -191,7 +191,7 @@ export default {
           accessToken: this.accessToken
         }
       })
-        .then((response)=> {
+        .then((response) => {
           if(response.status != 200) {
             throw response.status
           }
@@ -206,7 +206,7 @@ export default {
           this.endPage = response.data.end;
           this.pageList = response.data.pageList;
         })
-        .catch((error)=>{
+        .catch((error) => {
            errorRedirectHandler(error.response.status)
         })
     }
