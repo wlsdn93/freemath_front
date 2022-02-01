@@ -135,20 +135,7 @@ export default {
     }
   },
   created() {
-    this.axios.get('/problems', {
-      params: {
-        page: this.page,
-      }
-    })
-        .then((response) => {
-          this.problems = response.data.content;
-          this.pageNumber = response.data.page;
-          this.pageSize = response.data.size;
-          this.totalPage = response.data.totalPage;
-          this.startPage = response.data.start;
-          this.endPage = response.data.end;
-          this.pageList = response.data.pageList;
-        })
+    this.pageRequest();
   },
   methods: {
     first() {
@@ -187,8 +174,8 @@ export default {
       this.difficultyText = Object.keys(value).toString()
       console.log(this.difficulty)
     },
-    pageRequest() {
-      this.axios.get('/problems', {
+    pageRequestWithoutToken() {
+      this.axios.get('/guest/problems', {
         params: {
           page: this.page,
           difficulty: this.difficulty,
@@ -204,6 +191,33 @@ export default {
             this.endPage = response.data.end;
             this.pageList = response.data.pageList;
           })
+    },
+    pageRequestWithToken() {
+      this.axios.get('/user/problems', {
+        params: {
+          page: this.page,
+          difficulty: this.difficulty,
+          status: this.status,
+          accessToken: localStorage.getItem("access_token")
+        }
+      })
+          .then((response) => {
+            this.problems = response.data.content;
+            this.pageNumber = response.data.page;
+            this.pageSize = response.data.size;
+            this.totalPage = response.data.totalPage;
+            this.startPage = response.data.start;
+            this.endPage = response.data.end;
+            this.pageList = response.data.pageList;
+          })
+    },
+    pageRequest() {
+      let access_token = localStorage.getItem("access_token");
+      if ( access_token === null || access_token === undefined) {
+        this.pageRequestWithoutToken()
+      } else {
+        this.pageRequestWithToken()
+      }
     }
   }
 }
