@@ -191,9 +191,12 @@ export default {
         }
       })
           .catch((error)=>{
-            if (error.response.status === 401) {
+            if (error.response.status === 403) {
               alert("You will be redirected to login page because your access-token is not valid")
               window.location.replace("http://localhost:8081/login")
+            } else if (error.response.status === 401) {
+              alert("You are not allowed to access here")
+              window.location.replace("http://localhost:8081/")
             }
           })
           .then((response) => {
