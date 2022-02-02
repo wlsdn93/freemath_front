@@ -1,34 +1,56 @@
 <template>
-  <div style="font-family: BMJUA; font-size: x-large; margin: 20px; display: flex">
+  <div style="font-family: BMJUA; font-size: x-large; margin: 20px; display: flex; align-items: center; justify-content: center">
     <b-form @submit="onSubmit" method="post" enctype="multipart/form-data">
-      <b-form-group id="input-group-1" label="Title:" label-for="input-1" style="margin: 20px">
-        <b-form-input id="input-1" type="text" placeholder="Enter title" required style="font-size: 20px"> </b-form-input>
+      <b-form-group id="input-group-1" label="제목:" label-for="input-1" style="margin: 20px">
+        <b-form-input id="input-1" type="text" placeholder="ex) 평가원 21년 9월 22번" required style="font-size: 25px"> </b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-2" label="Answer:" label-for="input-2" style="margin: 20px">
-        <b-form-input id="input-2" type="text" placeholder="Enter answer" required style="font-size: 20px"></b-form-input>
+      <b-form-group label="정답 유형" v-slot="{ ariaDescribedby }" style="margin: 20px">
+        <b-form-radio-group
+            v-model="selectedAnswerType"
+            :options="answerType"
+            :aria-describedby="ariaDescribedby"
+            name="answerType"
+            plain
+        ></b-form-radio-group>
       </b-form-group>
+
+      <b-form-group v-if="selectedAnswerType==='choice'" label="정답:" v-slot="{ ariaDescribedby }" style="margin: 20px">
+        <b-form-radio-group
+            v-model="selected"
+            :options="choices"
+            :aria-describedby="ariaDescribedby"
+            name="answer"
+            plain
+        ></b-form-radio-group>
+      </b-form-group>
+
+      <b-form-group v-if="selectedAnswerType==='shortAnswer'" id="input-group-2" label="정답:" label-for="input-2" style="margin: 20px">
+        <b-form-input id="input-2" type="text" placeholder="Enter answer" style="font-size: 25px"></b-form-input>
+      </b-form-group>
+
       <div style="display: flex">
-        <b-form-group id="input-group-3" label="Difficulty:" label-for="input-3" style="margin: 20px">
+        <b-form-group id="input-group-3" label="난이도:" label-for="input-3" style="margin: 20px">
           <b-form-select id="input-3" :options="difficulties" required style="width: 200px; height: 40px"></b-form-select>
         </b-form-group>
 
-        <b-form-group id="input-group-4" label="Subject:" label-for="input-4" style="margin: 20px">
+        <b-form-group id="input-group-4" label="과목:" label-for="input-4" style="margin: 20px">
           <b-form-select id="input-4" :options="subjects" required style="width: 200px; height: 40px"></b-form-select>
         </b-form-group>
       </div>
+
       <div style=" margin: 20px; display: flex; border: black; border: solid; border-radius: 10px 10px 10px 10px">
-        <b-form-group id="input-group-5" label="Problem:" label-for="input-5" style="margin: 20px">
+        <b-form-group id="input-group-5" label="문제:" label-for="input-5" style="margin: 20px">
          <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${problemImage})`}" @click="selectProblemImage"></div>
          <input ref="problemInput" id="input-5" type="file" @input="pickProblemFile" name="solutionImageFile" required >
         </b-form-group>
 
-        <b-form-group id="input-group-6" label="Solution:" label-for="input-6" style="margin: 20px">
+        <b-form-group id="input-group-6" label="해설:" label-for="input-6" style="margin: 20px">
           <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${solutionImage})`}" @click="selectSolutionImage"></div>
           <input ref="solutionInput" id="input-6" type="file" @input="pickSolutionFile" name="solutionImageFile" required >
         </b-form-group>
       </div>
-      <b-button type="submit" variant="primary" style="margin: 20px; font-size: larger">SUBMIT</b-button>
+      <b-button type="submit" variant="primary" style="margin: 20px; font-size: x-large">SUBMIT</b-button>
 
     </b-form>
   </div>
@@ -41,6 +63,19 @@ export default {
       image: '',
       problemImage:'',
       solutionImage:'',
+      selectedAnswerType: '',
+      selected: '',
+      answerType: [
+        { text: "객관식", value: "choice"},
+        { text: "주관식", value: "shortAnswer"},
+      ],
+      choices: [
+          { text: "1", value: "1" },
+          { text: "2", value: "2" },
+          { text: "3", value: "3" },
+          { text: "4", value: "4" },
+          { text: "5", value: "5" }
+      ],
       difficulties: [
           { text: "Difficulty", value: null},
           { text: "2점", value: "2" },
