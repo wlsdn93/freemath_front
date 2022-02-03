@@ -1,31 +1,27 @@
 <template>
   <div class="background">
-    <div class="d-flex align-items-start">
-      <div>
-        <b-dropdown id="dropdown-1" :text="subjectText" class="m-md-2" >
-          <b-dropdown-item v-for="(value, index) in subjects" :key="index" @click="setSubject(value)">
-            {{ Object.keys(value).toString()}}
-          </b-dropdown-item>
-        </b-dropdown>
+    <div class="d-flex flex-row">
+      <div class="d-flex align-items-start">
+          <b-dropdown id="subjectText" :text="subjectText" class="m-md-2" >
+            <b-dropdown-item v-for="(value, index) in subjects" :key="index" @click="setSubject(value)">
+              {{ Object.keys(value).toString()}}
+            </b-dropdown-item>
+          </b-dropdown>
+          <b-dropdown id="statusText" :text="statusText" class="m-md-2">
+            <b-dropdown-item v-for="(value, index) in statuses" :key="index" @click="setStatus(value)">
+              {{ Object.keys(value).toString()}}
+            </b-dropdown-item>
+          </b-dropdown>
+          <b-dropdown id="difficultyText" :text="difficultyText" class="m-md-2">
+            <b-dropdown-item v-for="(value, index) in difficulties" :key="index" @click="setDifficulty(value)">
+              {{ Object.keys(value).toString()}}
+            </b-dropdown-item>
+          </b-dropdown>
       </div>
-
-      <div>
-        <b-dropdown id="dropdown-1" :text="statusText" class="m-md-2">
-          <b-dropdown-item v-for="(value, index) in statuses" :key="index" @click="setStatus(value)">
-            {{ Object.keys(value).toString()}}
-          </b-dropdown-item>
-        </b-dropdown>
-      </div>
-
-      <div>
-        <b-dropdown id="dropdown-1" :text="difficultyText" class="m-md-2">
-          <b-dropdown-item v-for="(value, index) in difficulties" :key="index" @click="setDifficulty(value)">
-            {{ Object.keys(value).toString()}}
-          </b-dropdown-item>
-        </b-dropdown>
+      <div style="margin-left: auto;">
+        <a @click="toAddForm" v-if="role==='ADMIN'"><b-button class="addButton"> 문제 추가 </b-button></a>
       </div>
     </div>
-
     <table class="table" style="font-size: large; font-family: BMHANNAAir">
     <thead>
     <tr>
@@ -87,6 +83,7 @@
 
 <script>
 import {errorRedirectHandler} from '../Utils';
+import jwt_decode from "jwt-decode";
 export default {
   name: "Home",
   data() {
@@ -102,6 +99,7 @@ export default {
       endPage: 10,
       subjectText: '과목', subject: '',
       accessToken:'',
+      role: 'STUDENT',
       subjects: [
           {"과목": null},
           {"수학1" : "CommonMath1"},
@@ -142,6 +140,15 @@ export default {
   created() {
     this.pageRequest();
   },
+  mounted() {
+    try {
+      const jwt = localStorage.getItem("access_token")
+      let payload = jwt_decode(jwt);
+      this.role = payload.role
+    } catch (e) {
+      console.log("token not found")
+    }
+  },
   methods: {
     first() {
       this.page = 0;
@@ -162,7 +169,7 @@ export default {
       console.log(this.page)
     },
     isCurrPage(page) {
-      return this.page === page - 1 ? true : false
+      return this.page === page - 1
     },
     setSubject(value) {
       this.subject = Object.values(value).toString()
@@ -195,7 +202,7 @@ export default {
         }
       })
         .then((response) => {
-          if(response.status != 200) {
+          if(response.status !== 200) {
             throw response.status
           }
         return response
@@ -212,6 +219,9 @@ export default {
         .catch((error) => {
            errorRedirectHandler(error.response.status)
         })
+    },
+    toAddForm() {
+      location.href='/admin/problem-add'
     }
   },
   components: {
@@ -224,5 +234,12 @@ export default {
   font-size: large;
   font-family: BMHANNAAir;
   font-weight: bold;
+}
+.addButton {
+  margin: 8px;
+  background-color: red;
+  color: ghostwhite;
+  font-weight: bold;
+  font-size: large;
 }
 </style>
