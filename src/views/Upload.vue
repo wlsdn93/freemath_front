@@ -78,6 +78,7 @@
   </div>
 </template>
 <script>
+import {getAccessToken} from "@/utils";
 export default {
   name : "Upload",
   data() {
@@ -87,7 +88,9 @@ export default {
       difficulty: '',
       subject: '',
       problemImage: {},
+      problemImageName: {},
       solutionImage:{},
+      solutionImageName:{},
       answerType: [
         { text: "객관식", value: "choice"},
         { text: "주관식", value: "shortAnswer"},
@@ -121,9 +124,11 @@ export default {
   methods: {
     onChangeProblem(event) {
       this.problemImage = event.target.files[0]
+      this.problemImageName = event.target.files[0].name
     },
     onChangeSolution(event) {
       this.solutionImage = event.target.files[0]
+      this.solutionImageName = event.target.files[0].name
     },
     onSubmit() {
       let formData = new FormData;
@@ -138,20 +143,13 @@ export default {
       formData.append('difficulty', this.difficulty)
       formData.append('subject', this.subject)
       formData.append('problemImage', this.problemImage)
+      formData.append('problemImageName', this.problemImageName)
       formData.append('solutionImage', this.solutionImage)
+      formData.append('solutionImageName', this.solutionImageName)
 
-      for (let key of formData.entries()) {
-        console.log(key)
-      }
-      let access_token = localStorage.getItem("access_token");
-      if ( access_token === null || access_token === undefined) {
-        this.accessToken = "guest";
-      } else {
-        this.accessToken = access_token;
-      }
       this.axios.post("/admin/upload", formData, {
         params: {
-          accessToken: this.accessToken
+          accessToken: getAccessToken()
         }
       })
     },

@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import {errorRedirectHandler} from '../Utils';
+import {errorRedirectHandler} from '@/utils';
 import jwt_decode from "jwt-decode";
 export default {
   name: "Home",
