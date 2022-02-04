@@ -10,12 +10,17 @@
             style="font-size: 25px"> </b-form-input>
       </b-form-group>
       <b-button type="submit" variant="primary" style="margin: 20px; font-size: x-large">정답 제출</b-button>
+      <b-button
+          variant="danger" v-if="role==='ADMIN'"
+          @click="deleteProblem"
+          style="margin: 20px; font-size: x-large">문제 삭제</b-button>
     </b-form>
   </div>
 </template>
 
 <script>
 import {getAccessToken} from "@/utils";
+import jwt_decode from "jwt-decode";
 export default {
   name: "ProblemDetail",
   data() {
@@ -23,22 +28,24 @@ export default {
       problemId: this.$route.params.valueOf().problemId,
       answer: '',
       problemImageUrl: '',
+      role: '',
     }
   },
   mounted() {
     this.problemImageUrl = "http://localhost:8080/problem-image/" + this.problemId
   },
-  created() {
-    const uri = "user/problems/" + this.problemId
-    this.axios.get(uri,{
-      params: {
-        accessToken: getAccessToken()
-      }
-    })
+  beforeMount() {
+    try {
+      const jwt = localStorage.getItem("access_token")
+      let payload = jwt_decode(jwt);
+      this.role = payload.role
+    } catch (e) {
+      console.log("token not found")
+    }
   },
   methods: {
     onSubmit() {
-      const uri = "user/problems/" + this.problemId
+      const uri = "/user/problems/" + this.problemId
       this.axios.post(uri, '', {
         params: {
           answer: this.answer,
@@ -46,6 +53,19 @@ export default {
         }
       })
     },
+    deleteProblem() {
+      const uri = "/admin/delete/" + this.problemId
+      if (confirm("정말로 삭제하시겠습니까?")) {
+        this.axios.delete(uri, {
+          params: {
+            accessToken: getAccessToken()
+          }
+        })
+        .then(() => {
+          window.location.replace("/problems")
+        })
+      }
+    }
   }
 }
 </script>

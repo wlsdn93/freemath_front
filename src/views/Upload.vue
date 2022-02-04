@@ -152,6 +152,9 @@ export default {
           accessToken: getAccessToken()
         }
       })
+      .then(()=> {
+        location.replace("/problems")
+        })
     },
     pickProblemFiles () {
       let input = this.$refs.problemInput
