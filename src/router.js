@@ -18,8 +18,10 @@ const router = new VueRouter({
             component: Problems
         },
         {
-            path:"/problems/:id",
-            component: ProblemDetail
+            path:"/problems/:problemId",
+            component: ProblemDetail,
+            props: (route) => ({
+                param: route.params})
         },
         {
             path:"/admin/problem-add",

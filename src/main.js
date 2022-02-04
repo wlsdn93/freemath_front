@@ -17,8 +17,8 @@ import vuex from 'vuex'
 Vue.use(IconsPlugin)
 Vue.use(VueAxios, axios)
 axios.defaults.baseURL = 'http://localhost:8080'
+axios.defaults.params = {}
 Vue.use(vuex)
-// axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
 
 
 new Vue({

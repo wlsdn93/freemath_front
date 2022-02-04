@@ -8,5 +8,14 @@ const errorRedirectHandler = ((HttpStatusCode) => {
         }
     })
 
+const getAccessToken = (() => {
+        let access_token = localStorage.getItem("access_token");
+        if (access_token === null || access_token === undefined) {
+            return "guest";
+        } else {
+            return access_token;
+        }
+    }
+)
 
-export {errorRedirectHandler}
+export {errorRedirectHandler, getAccessToken}
