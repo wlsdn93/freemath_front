@@ -18,7 +18,7 @@
             </b-dropdown-item>
           </b-dropdown>
       </div>
-      <div style="margin-left: auto;">
+      <div style="margin-left: auto">
         <a @click="toAddForm" v-if="role==='ADMIN'"><b-button class="addButton"> 문제 추가 </b-button></a>
       </div>
     </div>
@@ -29,6 +29,7 @@
       <th class="col-md-1" style="text-align: center" scope="col">문제번호</th>
       <th class="col-md-8" style="text-align: center" scope="col">문제명</th>
       <th class="col-md-2" style="text-align: center" scope="col">난이도</th>
+      <th class="col-md-2" style="text-align: center" scope="col">과목</th>
     </tr>
     </thead>
     <tbody>
@@ -38,43 +39,38 @@
         <img v-if="problem.status===false" src="../assets/wrong.svg">
       </td>
       <td style="text-align: center" > {{ problem.problemId }} </td>
-      <td style="text-align: center" ><a :href="`/problems/${problem.problemId}`"> {{ problem.title }} </a></td>
+      <td style="text-align: center" ><a @click="toProblemDetail(problem.status, problem.problemId)"> {{ problem.title }} </a></td>
       <td style="text-align: center" > {{ problem.difficulty }} </td>
+      <td style="text-align: center" > {{ problem.subject }} </td>
     </tr>
     </tbody>
   </table>
     <div>
       <nav style="text-align: center">
         <ul class="pagination justify-content-center">
-
           <li>
             <a @click="first()" class="page-link" >
               <span> 처음 </span>
             </a>
           </li>
-
           <li>
             <a @click="prev()" class="page-link">
               <span> 이전 </span>
             </a>
           </li>
-
           <li v-for="page in pageList" :key="page" class="page-item" :class="isCurrPage(page) ? 'active': ''">
             <a @click="setPage(page)" class="page-link"> {{ page }} </a>
           </li>
-
           <li>
             <a @click="next()" class="page-link">
               <span> 다음 </span>
             </a>
           </li>
-
           <li class="page-item">
             <a @click="last()" class="page-link">
               <span> 마지막 </span>
             </a>
           </li>
-
         </ul>
       </nav>
     </div>
@@ -83,7 +79,9 @@
 
 <script>
 import {errorRedirectHandler} from '@/utils';
+import {getAccessToken} from "@/utils";
 import jwt_decode from "jwt-decode";
+
 export default {
   name: "Home",
   data() {
@@ -135,9 +133,13 @@ export default {
     status() {
       this.page = 0
       this.pageRequest()
+    },
+    subject() {
+      this.page = 0
+      this.pageRequest()
     }
   },
-  created() {
+  beforeMount() {
     this.pageRequest();
   },
   mounted() {
@@ -187,18 +189,13 @@ export default {
       console.log(this.difficulty)
     },
     pageRequest() {
-      let access_token = localStorage.getItem("access_token");
-      if ( access_token === null || access_token === undefined) {
-        this.accessToken = "guest";
-      } else {
-        this.accessToken = access_token;
-      }
       this.axios.get('/user/problems', {
         params: {
           page: this.page,
           difficulty: this.difficulty,
           status: this.status,
-          accessToken: this.accessToken
+          subject: this.subject,
+          accessToken: getAccessToken()
         }
       })
         .then((response) => {
@@ -222,10 +219,12 @@ export default {
     },
     toAddForm() {
       location.href='/admin/problem-add'
+    },
+    toProblemDetail(status, problemId) {
+      this.$store.commit("setStatus", status)
+      this.$router.push(`/problems/${problemId}`)
     }
   },
-  components: {
-  }
 }
 </script>
 
