@@ -2,12 +2,12 @@
   <div class="background">
     <div class="d-flex flex-row">
       <div class="d-flex align-items-start">
-          <b-dropdown id="subjectText" :text="subjectText" class="m-md-2" >
+          <b-dropdown v-if="false" id="subjectText" :text="subjectText" class="m-md-2" >
             <b-dropdown-item v-for="(value, index) in subjects" :key="index" @click="setSubject(value)">
               {{ Object.keys(value).toString()}}
             </b-dropdown-item>
           </b-dropdown>
-          <b-dropdown id="statusText" :text="statusText" class="m-md-2">
+          <b-dropdown v-if="authenticated===true" id="statusText" :text="statusText" class="m-md-2">
             <b-dropdown-item v-for="(value, index) in statuses" :key="index" @click="setStatus(value)">
               {{ Object.keys(value).toString()}}
             </b-dropdown-item>
@@ -18,7 +18,7 @@
             </b-dropdown-item>
           </b-dropdown>
       </div>
-      <div style="margin-left: auto;">
+      <div style="margin-left: auto">
         <a @click="toAddForm" v-if="role==='ADMIN'"><b-button class="addButton"> 문제 추가 </b-button></a>
       </div>
     </div>
@@ -38,7 +38,7 @@
         <img v-if="problem.status===false" src="../assets/wrong.svg">
       </td>
       <td style="text-align: center" > {{ problem.problemId }} </td>
-      <td style="text-align: center" ><a :href="`/problems/${problem.problemId}`"> {{ problem.title }} </a></td>
+      <td style="text-align: center" ><a @click="toProblemDetail(problem.status, problem.problemId)"> {{ problem.title }} </a></td>
       <td style="text-align: center" > {{ problem.difficulty }} </td>
     </tr>
     </tbody>
@@ -46,35 +46,29 @@
     <div>
       <nav style="text-align: center">
         <ul class="pagination justify-content-center">
-
           <li>
             <a @click="first()" class="page-link" >
               <span> 처음 </span>
             </a>
           </li>
-
           <li>
             <a @click="prev()" class="page-link">
               <span> 이전 </span>
             </a>
           </li>
-
           <li v-for="page in pageList" :key="page" class="page-item" :class="isCurrPage(page) ? 'active': ''">
             <a @click="setPage(page)" class="page-link"> {{ page }} </a>
           </li>
-
           <li>
             <a @click="next()" class="page-link">
               <span> 다음 </span>
             </a>
           </li>
-
           <li class="page-item">
             <a @click="last()" class="page-link">
               <span> 마지막 </span>
             </a>
           </li>
-
         </ul>
       </nav>
     </div>
@@ -83,7 +77,9 @@
 
 <script>
 import {errorRedirectHandler} from '@/utils';
+import {getAccessToken} from "@/utils";
 import jwt_decode from "jwt-decode";
+
 export default {
   name: "Home",
   data() {
@@ -100,8 +96,9 @@ export default {
       subjectText: '과목', subject: '',
       accessToken:'',
       role: 'STUDENT',
+      authenticated: '',
       subjects: [
-          {"과목": null},
+          {"과목" : null},
           {"수학1" : "CommonMath1"},
           {"수학2" : "CommonMath2"},
           {"미분과 적분" : "Calculus"},
@@ -110,17 +107,16 @@ export default {
       ],
       statusText: '상태', status: '',
       statuses: [
-          {"상태":null},
-          {"안푼 문제":null},
-          {"틀린 문제":false},
-          {"맞은 문제":true},
+          {"상태" : null},
+          {"틀린 문제" : false},
+          {"맞은 문제" : true},
       ],
       difficultyText: '난이도', difficulty: '',
       difficulties: [
-        {"난이도":null},
-        {"2점":2},
-        {"3점":3},
-        {"4점":4},
+        {"난이도" : null},
+        {"2점" : 2},
+        {"3점" : 3},
+        {"4점" : 4},
       ]
     }
   },
@@ -135,9 +131,13 @@ export default {
     status() {
       this.page = 0
       this.pageRequest()
+    },
+    subject() {
+      this.page = 0
+      this.pageRequest()
     }
   },
-  created() {
+  beforeMount() {
     this.pageRequest();
   },
   mounted() {
@@ -145,7 +145,9 @@ export default {
       const jwt = localStorage.getItem("access_token")
       let payload = jwt_decode(jwt);
       this.role = payload.role
+      this.authenticated = true
     } catch (e) {
+      this.authenticated = false
       console.log("token not found")
     }
   },
@@ -187,18 +189,12 @@ export default {
       console.log(this.difficulty)
     },
     pageRequest() {
-      let access_token = localStorage.getItem("access_token");
-      if ( access_token === null || access_token === undefined) {
-        this.accessToken = "guest";
-      } else {
-        this.accessToken = access_token;
-      }
       this.axios.get('/user/problems', {
         params: {
           page: this.page,
           difficulty: this.difficulty,
           status: this.status,
-          accessToken: this.accessToken
+          accessToken: getAccessToken()
         }
       })
         .then((response) => {
@@ -215,6 +211,7 @@ export default {
           this.startPage = response.data.start;
           this.endPage = response.data.end;
           this.pageList = response.data.pageList;
+          console.log(response.data.pageList)
         })
         .catch((error) => {
            errorRedirectHandler(error.response.status)
@@ -222,10 +219,12 @@ export default {
     },
     toAddForm() {
       location.href='/admin/problem-add'
+    },
+    toProblemDetail(status, problemId) {
+      this.$store.commit("setStatus", status)
+      this.$router.push(`/problems/${problemId}`)
     }
   },
-  components: {
-  }
 }
 </script>
 

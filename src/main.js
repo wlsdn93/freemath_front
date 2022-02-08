@@ -14,6 +14,8 @@ Vue.use(BootstrapVue)
 import axios from 'axios'
 import VueAxios from "vue-axios"
 import vuex from 'vuex'
+import {store} from "./store";
+
 Vue.use(IconsPlugin)
 Vue.use(VueAxios, axios)
 axios.defaults.baseURL = 'http://localhost:8080'
@@ -23,5 +25,6 @@ Vue.use(vuex)
 
 new Vue({
   router,
+  store: store,
   render: h => h(App),
 }).$mount('#app')
