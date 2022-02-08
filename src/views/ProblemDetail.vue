@@ -9,7 +9,7 @@
       </div>
       <div class="inner-item-form">
         <b-form @submit.prevent="onSubmit" style="display: flex">
-          <b-form-group v-if="role==='ADMIN'" id="input-group-1" style="margin: auto; font-size: 25px; width: 70%">
+          <b-form-group v-if="role==='ADMIN'" id="input-group-1" style="margin: auto; font-size: 25px; width: 50%">
             <b-form-input
                 v-model="answer" id="answer" type="text"
                 placeholder="정답을 입력하세요" required
@@ -108,9 +108,9 @@ export default {
 <style scoped>
 .outer-container {
   display: grid;
-  grid-template-columns: 65% 35%;
+  grid-template-columns: 50% 50%;
   font-family: BMJUA;
-  width: 1800px;
+  width: 1700px;
   margin: 30px;
 }
 .inner-container {

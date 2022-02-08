@@ -2,12 +2,12 @@
   <div class="background">
     <div class="d-flex flex-row">
       <div class="d-flex align-items-start">
-          <b-dropdown id="subjectText" :text="subjectText" class="m-md-2" >
+          <b-dropdown v-if="false" id="subjectText" :text="subjectText" class="m-md-2" >
             <b-dropdown-item v-for="(value, index) in subjects" :key="index" @click="setSubject(value)">
               {{ Object.keys(value).toString()}}
             </b-dropdown-item>
           </b-dropdown>
-          <b-dropdown id="statusText" :text="statusText" class="m-md-2">
+          <b-dropdown v-if="authenticated===true" id="statusText" :text="statusText" class="m-md-2">
             <b-dropdown-item v-for="(value, index) in statuses" :key="index" @click="setStatus(value)">
               {{ Object.keys(value).toString()}}
             </b-dropdown-item>
@@ -29,7 +29,6 @@
       <th class="col-md-1" style="text-align: center" scope="col">문제번호</th>
       <th class="col-md-8" style="text-align: center" scope="col">문제명</th>
       <th class="col-md-2" style="text-align: center" scope="col">난이도</th>
-      <th class="col-md-2" style="text-align: center" scope="col">과목</th>
     </tr>
     </thead>
     <tbody>
@@ -41,7 +40,6 @@
       <td style="text-align: center" > {{ problem.problemId }} </td>
       <td style="text-align: center" ><a @click="toProblemDetail(problem.status, problem.problemId)"> {{ problem.title }} </a></td>
       <td style="text-align: center" > {{ problem.difficulty }} </td>
-      <td style="text-align: center" > {{ problem.subject }} </td>
     </tr>
     </tbody>
   </table>
@@ -98,8 +96,9 @@ export default {
       subjectText: '과목', subject: '',
       accessToken:'',
       role: 'STUDENT',
+      authenticated: '',
       subjects: [
-          {"과목": null},
+          {"과목" : null},
           {"수학1" : "CommonMath1"},
           {"수학2" : "CommonMath2"},
           {"미분과 적분" : "Calculus"},
@@ -108,17 +107,16 @@ export default {
       ],
       statusText: '상태', status: '',
       statuses: [
-          {"상태":null},
-          {"안푼 문제":null},
-          {"틀린 문제":false},
-          {"맞은 문제":true},
+          {"상태" : null},
+          {"틀린 문제" : false},
+          {"맞은 문제" : true},
       ],
       difficultyText: '난이도', difficulty: '',
       difficulties: [
-        {"난이도":null},
-        {"2점":2},
-        {"3점":3},
-        {"4점":4},
+        {"난이도" : null},
+        {"2점" : 2},
+        {"3점" : 3},
+        {"4점" : 4},
       ]
     }
   },
@@ -147,7 +145,9 @@ export default {
       const jwt = localStorage.getItem("access_token")
       let payload = jwt_decode(jwt);
       this.role = payload.role
+      this.authenticated = true
     } catch (e) {
+      this.authenticated = false
       console.log("token not found")
     }
   },
@@ -194,7 +194,6 @@ export default {
           page: this.page,
           difficulty: this.difficulty,
           status: this.status,
-          subject: this.subject,
           accessToken: getAccessToken()
         }
       })
@@ -212,6 +211,7 @@ export default {
           this.startPage = response.data.start;
           this.endPage = response.data.end;
           this.pageList = response.data.pageList;
+          console.log(response.data.pageList)
         })
         .catch((error) => {
            errorRedirectHandler(error.response.status)
