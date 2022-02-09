@@ -1,29 +1,24 @@
 <template>
-  <div>
-    <nav class="navbar navbar-expand-xl navbar-light bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" @click="toHome()">
-          <span>
-           <b style="color: beige; font-size: xx-large; font-family: BMJUA">기출 저장소</b>
-          </span>
+  <div class="background">
+    <div class="navbar-custom">
+      <div class="navbar-container">
+        <a class="main-title" @click="toHome()">
+         기출 저장소
         </a>
         <ul class="nav justify-content-center" style="font-size: x-large; font-family: BMJUA">
-          <li class="nav-item" style="color: crimson; margin: 10px"> You </li>
-          <li class="nav-item" style="color: orangered; margin: 10px"> can </li>
-          <li class="nav-item" style="color: yellow; margin: 10px"> make </li>
-          <li class="nav-item" style="color: green; margin: 10px"> it </li>
+          <li class="nav-item" style="color: crimson; margin: 10px"> 한 문제만 </li>
+          <li class="nav-item" style="color: orangered; margin: 10px"> 더 </li>
+          <li class="nav-item" style="color: yellow; margin: 10px">  풀자 !! </li>
         </ul>
-
-          <div class="text-end" style="font-family: BMHANNAAir">
-            <span class="b-skeleton-button" v-if="!authorized" style="color: aliceblue; font-weight: bold"> {{ name }} </span>
-            <b-button variant="dark" v-if="!authorized" @click="toLoginPage()" style="font-family: BMJUA; font-size: large"> Login </b-button>
-            <span class="b-skeleton-button" v-if="authorized" style="color: aliceblue; font-weight: bold"> {{ role }} </span>
-            <span class="b-skeleton-button" v-if="authorized" style="color: aliceblue; font-weight: bold"> {{ name }} </span>
-            <b-button variant="dark" v-if="authorized" @click="logout()" style="font-family: BMJUA; font-size: large"> Logout </b-button>
-          </div>
-
+        <div class="user-info-text">
+          <span class="text-item" v-if="!authenticated" > {{ name }} </span>
+          <b-button class="b-skeleton-button" v-if="!authenticated" @click="toLoginPage()"> Login </b-button>
+          <span class="text-item" v-if="authenticated"> {{ role }} </span>
+          <span class="text-item" v-if="authenticated"> {{ name }} </span>
+          <b-button class="b-skeleton-button" v-if="authenticated" @click="logout()"> Logout </b-button>
         </div>
-    </nav>
+      </div>
+    </div>
   </div>
 
 </template>
@@ -45,23 +40,61 @@ export default {
     }
   },
   mounted() {
-    try {
-      const jwt = localStorage.getItem("access_token")
-      this.authorized = true
-      let payload = jwt_decode(jwt);
-      this.name = payload.name
+    this.accessToken = this.$store.state.accessToken
+    if (this.accessToken === null || this.accessToken === 'undefined') {
+      this.authenticated = false
+      this.accessToken = 'guest'
+    } else {
+      let payload = jwt_decode(this.accessToken);
       this.role = payload.role
-    } catch (e) {
-      this.authorized = false
-      console.log("token not found")
+      this.name = payload.name
+      this.authenticated = true
     }
   },
   data() {
     return {
-      authorized: false,
+      authenticated: false,
       name: 'Guest',
       role: 'student',
     }
   },
 }
 </script>
+<style scoped>
+.background {
+  font-family: BMJUA;
+}
+.navbar-custom {
+  background-color: black;
+  height: auto;
+}
+.navbar-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  vertical-align: center;
+}
+.main-title {
+  text-decoration: none;
+  color: beige;
+  position: relative;
+  top: 5px;
+  left: 15px;
+  font-size: xx-large;
+}
+.user-info-text {
+  font-size: large;
+  margin-left: auto;
+  position: relative;
+  right: 10px;
+  padding: 5px;
+}
+.text-item {
+  color: aliceblue;
+  margin-right: 10px;
+}
+.b-skeleton-button {
+  color: aliceblue;
+  background-color: black;
+  border: solid;
+}
+</style>

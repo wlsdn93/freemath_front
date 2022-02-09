@@ -3,7 +3,7 @@
     <div v-if="!$route.path.includes('/callback/')">
     <CommonNavBar/>
     </div>
-    <div id="content" class="align-content-center">
+    <div class="content">
           <router-view></router-view>
     </div>
   </div>
@@ -32,5 +32,11 @@ export default {
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/BMHANNAAir.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+}
+#app {
+}
+.content {
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
