@@ -4,51 +4,42 @@
       <img v-if="!showSolution" :src=problemImageUrl alt="no image" class="problem-image" />
       <img v-if="showSolution" :src=solutionImageUrl alt="no image" class="problem-image" />
     </div>
-    <div class="inner-container">
-      <div class="inner-item-detail">
-        <b-card-text> {{ title }} </b-card-text>
-        <b-card-text> {{ subject }} </b-card-text>
-        <b-card-text> {{ difficulty }} </b-card-text>
+      <div class="problem-detail">
+        <p> {{ title }} </p>
       </div>
+    <div class="inner-container">
       <div class="inner-item-form">
-        <b-form @submit.prevent="onSubmit" style="display: flex">
-          <b-form-group v-if="authenticated" id="input-group-1" style="margin: auto; font-size: 25px; width: 50%">
+        <b-form @submit.prevent="onSubmit" style="display: grid; grid-template-columns: 80% 20%">
+          <b-form-group v-if="authenticated" id="input-group-1">
             <b-form-input
                 v-model="answer" id="answer" type="text"
                 placeholder="정답을 입력하세요" required
-                name="title"
-                style="font-size: 25px">
+                name="title" style="width: 300px">
             </b-form-input>
           </b-form-group>
-            <b-button v-if="authenticated" type="submit" variant="primary" style="margin-left: auto; font-size: x-large">제출</b-button>
+            <b-button v-if="authenticated" type="submit" variant="primary" style="width: 100px; margin-left: 20px">제출</b-button>
        </b-form>
       </div>
+    </div>
       <div class="button-container">
         <b-button
             class="item-button"
             variant="danger" v-if="role==='ADMIN'"
-            @click="updateProblem"
-            style="font-size: x-large">문제수정</b-button>
+            @click="updateProblem">문제수정</b-button>
         <b-button
             class="item-button"
             variant="danger" v-if="role==='ADMIN'"
-            @click="deleteProblem"
-            style="font-size: x-large">문제삭제</b-button>
+            @click="deleteProblem">문제삭제</b-button>
         <b-button
             class="item-button"
-            variant="primary" @click="toBoard"
-            style="font-size: x-large">목록으로</b-button>
+            variant="primary" @click="toBoard">목록으로</b-button>
         <b-button
             class="item-button" v-if="!showSolution"
-            variant="primary" @click="solution"
-            style="font-size: x-large">해설 확인</b-button>
+            variant="primary" @click="solution">해설 확인</b-button>
         <b-button
             class="item-button" v-if="showSolution"
-            variant="primary" @click="solution"
-            style="font-size: x-large">문제 확인</b-button>
+            variant="primary" @click="solution">문제 확인</b-button>
       </div>
-    </div>
-
   </div>
 </template>
 
@@ -140,15 +131,15 @@ export default {
 <style scoped>
 .outer-container {
   display: grid;
-  grid-template-rows: 70% 30%;
+  grid-template-rows: 75% 5% 10% 10%;
   font-family: BMJUA;
-  width: 700px;
+  width: 800px;
   margin: 30px;
 }
 .inner-container {
-  display: grid;
-  grid-template-rows: 30% 55% 15%;
-  font-family: BMJUA;
+}
+.problem-detail {
+  font-size: larger;
 }
 .button-container {
 }
@@ -157,12 +148,12 @@ export default {
   max-height:100%;
 }
 .item-problem-image {
-  text-align: center;
   border: solid;
   border: #2d2d2d;
-  border-radius: 5px 5px 5px 5px;
 }
 .item-button {
+  position: relative;
+  top: 10px;
   margin-left: 20px;
 }
 </style>
