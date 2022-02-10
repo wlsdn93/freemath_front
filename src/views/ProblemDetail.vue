@@ -1,8 +1,7 @@
 <template>
   <div class="outer-container">
     <div class="item-problem-image">
-      <img v-if="!showSolution" :src=problemImageUrl alt="no image" class="problem-image" />
-      <img v-if="showSolution" :src=solutionImageUrl alt="no image" class="problem-image" />
+      <img :src=problemImageUrl alt="no image" class="problem-image" />
     </div>
       <div class="problem-detail">
         <p> {{ title }} </p>
@@ -17,7 +16,7 @@
                 name="title" style="width: 300px">
             </b-form-input>
           </b-form-group>
-            <b-button v-if="authenticated" type="submit" variant="primary" style="width: 100px; margin-left: 20px">제출</b-button>
+          <b-button v-if="authenticated" type="submit" variant="primary" style="width: 50px; margin-left: 20px; font-size: small;">제출</b-button>
        </b-form>
       </div>
     </div>
@@ -33,12 +32,7 @@
         <b-button
             class="item-button"
             variant="primary" @click="toBoard">목록으로</b-button>
-        <b-button
-            class="item-button" v-if="!showSolution"
-            variant="primary" @click="solution">해설 확인</b-button>
-        <b-button
-            class="item-button" v-if="showSolution"
-            variant="primary" @click="solution">문제 확인</b-button>
+        <b-button class="item-button" @click="showModal">해설보기</b-button>
       </div>
   </div>
 </template>
@@ -90,7 +84,7 @@ export default {
   },
   created() {
     this.problemImageUrl = "http://localhost:8080/problem-image/" + this.problemId
-    this.solutionImageUrl = "http://localhost:8080/soultion-image/" + this.problemId
+    this.solutionImageUrl = "http://localhost:8080/solution-image/" + this.problemId
   },
   methods: {
     onSubmit() {
@@ -100,7 +94,7 @@ export default {
           answer: this.answer,
           accessToken: this.accessToken
         }
-      })
+      }).then(() => window.location.replace("/problems"))
     },
     toBoard() {
       this.$router.push("/problems")
@@ -119,10 +113,24 @@ export default {
       }
     },
     updateProblem() {
-      console.log("update")
+      const uri = "/admin/update/" + this.problemId
+      this.$router.push(uri)
     },
-    solution() {
-      this.showSolution = !this.showSolution
+    showModal() {
+      const h = this.$createElement
+      const messageVNode = h('div', { class: ['foobar'] }, [
+        h('b-img', {
+          props: {
+            src: this.solutionImageUrl,
+            thumbnail: true,
+            center: true,
+          }
+        })
+      ])
+      this.$bvModal.msgBoxOk([messageVNode], {
+        buttonSize: 'sm',
+        centered: true, size: 'sm'
+      })
     }
   }
 }
@@ -130,30 +138,38 @@ export default {
 
 <style scoped>
 .outer-container {
+  max-width: 400px;
   display: grid;
-  grid-template-rows: 75% 5% 10% 10%;
+  grid-template-rows: 70% 5% 5% 10%;
   font-family: BMJUA;
-  width: 800px;
-  margin: 30px;
+  height: 800px;
+  width: 380px;
+  border: solid black;
+  border-radius: 10px 10px 10px 10px;
+  padding: 10px;
+  margin-right: auto;
 }
 .inner-container {
+
 }
 .problem-detail {
   font-size: larger;
 }
 .button-container {
+  margin: 5px;
 }
 .problem-image {
-  max-width:100%;
-  max-height:100%;
+  max-width: 100%;
+  max-height: 100%;
+  text-align: center;
 }
 .item-problem-image {
-  border: solid;
-  border: #2d2d2d;
+ text-align: center;
 }
 .item-button {
   position: relative;
   top: 10px;
-  margin-left: 20px;
+  margin-left: 10px;
+  font-size: small;
 }
 </style>
