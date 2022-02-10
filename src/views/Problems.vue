@@ -7,7 +7,7 @@
             {{ Object.keys(value).toString()}}
           </b-dropdown-item>
         </b-dropdown>
-        <b-dropdown v-if="authenticated===true" id="statusText" :text="statusText" class="m-md-2">
+        <b-dropdown v-if="authenticated===true" id="statusText" :text="statusText" class=m-md-2>
           <b-dropdown-item v-for="(value, index) in statuses" :key="index" @click="setStatus(value)">
             {{ Object.keys(value).toString()}}
           </b-dropdown-item>
@@ -255,6 +255,11 @@ export default {
 .random-button {
   margin: 8px;
   background-color: dodgerblue;
+  color: ghostwhite;
+  font-weight: bold;
+}
+.m-md-2 {
+  margin: 8px;
   color: ghostwhite;
   font-weight: bold;
 }
