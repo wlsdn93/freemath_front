@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <div v-if="!$route.path.includes('/callback/')">
-    <CommonNavBar/>
+    <div v-if="!$route.path.includes('/problems/')" class="common-navbar">
+      <CommonNavBar/>
     </div>
     <div class="content">
-          <router-view></router-view>
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -38,5 +38,13 @@ export default {
 .content {
   margin-left: auto;
   margin-right: auto;
+  min-width: 800px;
+  max-width: 1500px;
+}
+.common-navbar {
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 800px;
+  max-width: 1500px;
 }
 </style>

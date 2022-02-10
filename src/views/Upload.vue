@@ -78,7 +78,8 @@
   </div>
 </template>
 <script>
-import {getAccessToken} from "@/utils";
+import jwt_decode from "jwt-decode";
+
 export default {
   name : "Upload",
   data() {
@@ -119,6 +120,18 @@ export default {
           { text: "확률과 통계", value: "ProbabilityAndStatistic"},
           { text: "기하와 벡터", value: "GeometryAndVector" }
       ],
+      accessToken: '',
+    }
+  },
+  mounted() {
+    this.accessToken = this.$store.state.accessToken
+    if (this.accessToken === null || this.accessToken === 'undefined') {
+      this.authenticated = false
+      this.accessToken = 'guest'
+    } else {
+      let payload = jwt_decode(this.accessToken);
+      this.role = payload.role
+      this.authenticated = true
     }
   },
   methods: {
@@ -149,7 +162,7 @@ export default {
 
       this.axios.post("/admin/upload", formData, {
         params: {
-          accessToken: getAccessToken()
+          accessToken: this.accessToken
         }
       })
       .then(()=> {
