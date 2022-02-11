@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="image" src="http://localhost:8080/naverBtnImage" @click="NaverLogin">
+    <input class="login-button" type="image" src="http://localhost:8080/naverBtnImage" @click="NaverLogin" alt="">
   </div>
 </template>
 <script>
@@ -34,3 +34,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.login-button {
+  margin: 50px;
+}
+</style>

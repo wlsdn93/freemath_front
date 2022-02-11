@@ -8,6 +8,7 @@ import Callback from "@/views/Callback";
 import Ghost from "@/views/Ghost";
 import Welcome from "@/views/Welcome";
 import Test from "@/views/Test";
+import Update from "@/views/Update";
 
 Vue.use(VueRouter)
 
@@ -26,6 +27,12 @@ const router = new VueRouter({
         {
             path:"/admin/problem-add",
             component: Upload
+        },
+        {
+            path:"/admin/update/:problemId",
+            component: Update,
+            props: (route) => ({
+                param: route.params})
         },
         {
             path:"/login",

@@ -2,24 +2,29 @@
   <div class="background">
     <div class="d-flex flex-row">
       <div class="d-flex align-items-start">
-          <b-dropdown v-if="false" id="subjectText" :text="subjectText" class="m-md-2" >
-            <b-dropdown-item v-for="(value, index) in subjects" :key="index" @click="setSubject(value)">
-              {{ Object.keys(value).toString()}}
-            </b-dropdown-item>
-          </b-dropdown>
-          <b-dropdown v-if="authenticated===true" id="statusText" :text="statusText" class="m-md-2">
-            <b-dropdown-item v-for="(value, index) in statuses" :key="index" @click="setStatus(value)">
-              {{ Object.keys(value).toString()}}
-            </b-dropdown-item>
-          </b-dropdown>
-          <b-dropdown id="difficultyText" :text="difficultyText" class="m-md-2">
-            <b-dropdown-item v-for="(value, index) in difficulties" :key="index" @click="setDifficulty(value)">
-              {{ Object.keys(value).toString()}}
-            </b-dropdown-item>
-          </b-dropdown>
+        <b-dropdown id="subjectText" :text="subjectText" class="m-md-2" >
+          <b-dropdown-item v-for="(value, index) in subjects" :key="index" @click="setSubject(value)">
+            {{ Object.keys(value).toString()}}
+          </b-dropdown-item>
+        </b-dropdown>
+        <b-dropdown v-if="authenticated===true" id="statusText" :text="statusText" class=m-md-2>
+          <b-dropdown-item v-for="(value, index) in statuses" :key="index" @click="setStatus(value)">
+            {{ Object.keys(value).toString()}}
+          </b-dropdown-item>
+        </b-dropdown>
+        <b-dropdown id="difficultyText" :text="difficultyText" class="m-md-2">
+          <b-dropdown-item v-for="(value, index) in difficulties" :key="index" @click="setDifficulty(value)">
+            {{ Object.keys(value).toString()}}
+          </b-dropdown-item>
+        </b-dropdown>
       </div>
-      <div style="margin-left: auto">
-        <a @click="toAddForm" v-if="role==='ADMIN'"><b-button class="addButton"> 문제 추가 </b-button></a>
+      <div style="display: flex; margin-left: auto">
+        <div style="margin-left: auto">
+          <b-button v-if="role==='ADMIN'" class="add-button" @click="toAddForm"> 문제 추가 </b-button>
+        </div>
+        <div style="margin-left: auto">
+         <b-button class="random-button" @click="pickRandom"> 랜덤 문제 </b-button>
+        </div>
       </div>
     </div>
     <table class="table" style="font-size: large; font-family: BMHANNAAir">
@@ -38,7 +43,7 @@
         <img v-if="problem.status===false" src="../assets/wrong.svg">
       </td>
       <td style="text-align: center" > {{ problem.problemId }} </td>
-      <td style="text-align: center" ><a @click="toProblemDetail(problem.status, problem.problemId)"> {{ problem.title }} </a></td>
+      <td style="text-align: center" ><a @click="toProblemDetail(problem.problemId)"> {{ problem.title }} </a></td>
       <td style="text-align: center" > {{ problem.difficulty }} </td>
     </tr>
     </tbody>
@@ -77,7 +82,6 @@
 
 <script>
 import {errorRedirectHandler} from '@/utils';
-import {getAccessToken} from "@/utils";
 import jwt_decode from "jwt-decode";
 
 export default {
@@ -89,11 +93,13 @@ export default {
       pageNumber: 0,
       pageSize: 10,
       totalPage: 0,
+      totalContent: 0,
       pageList: [],
       startPage: 1,
       tempEndPage: 10,
       endPage: 10,
-      subjectText: '과목', subject: '',
+      subjectText: this.$store.state.subjectText,
+      subject: this.$store.state.subject,
       accessToken:'',
       role: 'STUDENT',
       authenticated: '',
@@ -105,13 +111,15 @@ export default {
           {"확률과 통계" : "ProbabilityAndStatistic"},
           {"기하와 벡터" : "GeometryAndVector" },
       ],
-      statusText: '상태', status: '',
+      statusText: this.$store.state.statusText,
+      status: this.$store.state.status,
       statuses: [
           {"상태" : null},
           {"틀린 문제" : false},
           {"맞은 문제" : true},
       ],
-      difficultyText: '난이도', difficulty: '',
+      difficultyText: this.$store.state.difficultyText,
+      difficulty: this.$store.state.difficulty,
       difficulties: [
         {"난이도" : null},
         {"2점" : 2},
@@ -137,18 +145,18 @@ export default {
       this.pageRequest()
     }
   },
-  beforeMount() {
+  mounted() {
     this.pageRequest();
   },
-  mounted() {
-    try {
-      const jwt = localStorage.getItem("access_token")
-      let payload = jwt_decode(jwt);
+  beforeMount() {
+    this.accessToken = this.$store.state.accessToken
+    if (this.accessToken === null || this.accessToken === 'undefined') {
+      this.authenticated = false
+      this.accessToken = 'guest'
+    } else {
+      let payload = jwt_decode(this.accessToken);
       this.role = payload.role
       this.authenticated = true
-    } catch (e) {
-      this.authenticated = false
-      console.log("token not found")
     }
   },
   methods: {
@@ -157,44 +165,45 @@ export default {
     },
     prev() {
       this.page > 0 ? this.page -= 1 : alert("첫 번째 페이지 입니다.")
-      console.log(this.page)
     },
     next() {
       this.page < this.totalPage ? this.page += 1 : alert("마지막 페이지 입니다.")
-      console.log(this.page)
     },
     last() {
       this.page = this.totalPage - 1
     },
     setPage(page) {
       this.page = page - 1
-      console.log(this.page)
     },
     isCurrPage(page) {
       return this.page === page - 1
     },
     setSubject(value) {
+      this.$store.commit("setSubject", Object.values(value).toString())
+      this.$store.commit("setSubjectText", Object.keys(value).toString())
       this.subject = Object.values(value).toString()
       this.subjectText = Object.keys(value).toString()
-      console.log(this.subject)
     },
     setStatus(value) {
+      this.$store.commit("setStatus", Object.values(value).toString())
+      this.$store.commit("setStatusText", Object.keys(value).toString())
       this.status = Object.values(value).toString()
       this.statusText = Object.keys(value).toString()
-      console.log(this.status)
     },
     setDifficulty(value) {
+      this.$store.commit("setDifficulty", Object.values(value).toString())
+      this.$store.commit("setDifficultyText", Object.keys(value).toString())
       this.difficulty = Object.values(value).toString()
       this.difficultyText = Object.keys(value).toString()
-      console.log(this.difficulty)
     },
     pageRequest() {
       this.axios.get('/user/problems', {
         params: {
           page: this.page,
-          difficulty: this.difficulty,
-          status: this.status,
-          accessToken: getAccessToken()
+          difficulty: this.$store.state.difficulty,
+          status: this.$store.state.status,
+          subject: this.$store.state.subject,
+          accessToken: this.accessToken
         }
       })
         .then((response) => {
@@ -211,7 +220,7 @@ export default {
           this.startPage = response.data.start;
           this.endPage = response.data.end;
           this.pageList = response.data.pageList;
-          console.log(response.data.pageList)
+          this.totalContent = response.data.totalContent;
         })
         .catch((error) => {
            errorRedirectHandler(error.response.status)
@@ -220,10 +229,13 @@ export default {
     toAddForm() {
       location.href='/admin/problem-add'
     },
-    toProblemDetail(status, problemId) {
-      this.$store.commit("setStatus", status)
+    toProblemDetail(problemId) {
       this.$router.push(`/problems/${problemId}`)
-    }
+    },
+    pickRandom() {
+      let problemId = Math.floor(Math.random() * this.totalContent) + 1
+      this.$router.push(`/problems/${problemId}`)
+    },
   },
 }
 </script>
@@ -234,11 +246,21 @@ export default {
   font-family: BMHANNAAir;
   font-weight: bold;
 }
-.addButton {
+.add-button {
   margin: 8px;
   background-color: red;
   color: ghostwhite;
   font-weight: bold;
-  font-size: large;
+}
+.random-button {
+  margin: 8px;
+  background-color: dodgerblue;
+  color: ghostwhite;
+  font-weight: bold;
+}
+.m-md-2 {
+  margin: 8px;
+  color: ghostwhite;
+  font-weight: bold;
 }
 </style>

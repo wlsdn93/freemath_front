@@ -41,11 +41,10 @@ export default {
           social: this.$route.params.valueOf().social
         },
       })
-          .then((response) => {
-            console.log(response)
-            localStorage.setItem("access_token", response.data.jwt)
-            window.location.replace(response.data.redirectUri)
-          })
+        .then((response) => {
+          localStorage.setItem("access_token", response.data.jwt)
+          window.location.replace(response.data.redirectUri)
+        })
     },
   data() {
     return {

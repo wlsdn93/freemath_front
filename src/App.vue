@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <div v-if="!$route.path.includes('/callback/')">
-    <CommonNavBar/>
+    <div v-if="!$route.path.includes('/problems/')" class="common-navbar">
+      <CommonNavBar/>
     </div>
-    <div id="content" class="align-content-center">
-          <router-view></router-view>
+    <div class="content">
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -32,5 +32,19 @@ export default {
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/BMHANNAAir.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+}
+#app {
+}
+.content {
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 800px;
+  max-width: 1500px;
+}
+.common-navbar {
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 800px;
+  max-width: 1500px;
 }
 </style>

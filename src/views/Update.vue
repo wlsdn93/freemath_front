@@ -79,11 +79,11 @@
 </template>
 <script>
 import jwt_decode from "jwt-decode";
-
 export default {
   name : "Upload",
   data() {
     return {
+      problemId: this.$route.params.valueOf().problemId,
       title: '',
       answer: '',
       difficulty: '',
@@ -123,7 +123,7 @@ export default {
       accessToken: '',
     }
   },
-  mounted() {
+  beforeMount() {
     this.accessToken = this.$store.state.accessToken
     if (this.accessToken === null || this.accessToken === 'undefined') {
       this.authenticated = false
@@ -133,6 +133,27 @@ export default {
       this.role = payload.role
       this.authenticated = true
     }
+  },
+  mounted() {
+    const uri = "/user/problems/" + this.problemId
+    this.axios.get(uri, {
+      params: {
+        accessToken: this.accessToken
+      }
+    })
+        .then((response)=>{
+          this.title = response.data.title
+          this.selectedAnswerType = response.data.answerType
+          if (this.selectedAnswerType==='choice') {
+            this.selected = response.data.answer
+          } else {
+            this.answer = response.data.answer
+          }
+          this.difficulty = response.data.difficulty
+          this.subject = response.data.subject
+          this.problemImageName = response.data.problemImageName
+          this.solutionImageName = response.data.solutionImageName
+        })
   },
   methods: {
     onChangeProblem(event) {
