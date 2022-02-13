@@ -109,8 +109,7 @@ export default {
           { text: "Difficulty", value: null},
           { text: "2점", value: "2" },
           { text: "3점", value: "3" },
-          { text: "4점", value: "4" },
-          { text: "5점", value: "5" }
+          { text: "4점", value: "4" }
       ],
       subjects: [
           { text: "Subject", value: null},
@@ -125,7 +124,7 @@ export default {
   },
   mounted() {
     this.accessToken = this.$store.state.accessToken
-    if (this.accessToken === null || this.accessToken === 'undefined') {
+    if (this.accessToken === null || this.accessToken === undefined) {
       this.authenticated = false
       this.accessToken = 'guest'
     } else {

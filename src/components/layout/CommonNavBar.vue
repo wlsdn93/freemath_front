@@ -41,7 +41,7 @@ export default {
   },
   mounted() {
     this.accessToken = this.$store.state.accessToken
-    if (this.accessToken === null || this.accessToken === 'undefined') {
+    if (this.accessToken === null || this.accessToken === undefined) {
       this.authenticated = false
       this.accessToken = 'guest'
     } else {

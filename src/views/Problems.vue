@@ -125,7 +125,8 @@ export default {
         {"2점" : 2},
         {"3점" : 3},
         {"4점" : 4},
-      ]
+      ],
+      problemIdList: '',
     }
   },
   watch: {
@@ -150,7 +151,7 @@ export default {
   },
   beforeMount() {
     this.accessToken = this.$store.state.accessToken
-    if (this.accessToken === null || this.accessToken === 'undefined') {
+    if (this.accessToken === null || this.accessToken === undefined) {
       this.authenticated = false
       this.accessToken = 'guest'
     } else {
@@ -197,6 +198,7 @@ export default {
       this.difficultyText = Object.keys(value).toString()
     },
     pageRequest() {
+      this.getProblemIdList()
       this.axios.get('/user/problems', {
         params: {
           page: this.page,
@@ -233,9 +235,27 @@ export default {
       this.$router.push(`/problems/${problemId}`)
     },
     pickRandom() {
-      let problemId = Math.floor(Math.random() * this.totalContent) + 1
-      this.$router.push(`/problems/${problemId}`)
+      let problemId = this.problemIdList[(Math.floor(Math.random() * this.problemIdList.length))];
+      console.log(problemId)
+      if (problemId !== undefined) {
+        this.$router.push(`/problems/${problemId}`)
+      } else {
+        alert("랜덤문제가 없습니다.")
+      }
     },
+    getProblemIdList() {
+      this.axios.get("/user/problems/list", {
+        params: {
+          difficulty: this.$store.state.difficulty,
+          status: this.$store.state.status,
+          subject: this.$store.state.subject,
+          accessToken: this.accessToken
+        }
+      })
+          .then((response) => {
+            this.problemIdList = response.data
+          })
+    }
   },
 }
 </script>
