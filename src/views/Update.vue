@@ -102,7 +102,6 @@ export default {
           { text: "2", value: "2" },
           { text: "3", value: "3" },
           { text: "4", value: "4" },
-          { text: "5", value: "5" }
       ],
       selected: '',
       difficulties: [
@@ -125,7 +124,7 @@ export default {
   },
   beforeMount() {
     this.accessToken = this.$store.state.accessToken
-    if (this.accessToken === null || this.accessToken === 'undefined') {
+    if (this.accessToken === null || this.accessToken === undefined) {
       this.authenticated = false
       this.accessToken = 'guest'
     } else {
