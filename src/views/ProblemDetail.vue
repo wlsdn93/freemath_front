@@ -83,8 +83,8 @@ export default {
     })
   },
   created() {
-    this.problemImageUrl = "http://3.39.4.23/problem-image/" + this.problemId
-    this.solutionImageUrl = "http://3.39.4.23/solution-image/" + this.problemId
+    this.problemImageUrl = "http://3.39.4.23:8080/problem-image/" + this.problemId
+    this.solutionImageUrl = "http://3.39.4.23:8080/solution-image/" + this.problemId
   },
   methods: {
     onSubmit() {
