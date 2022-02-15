@@ -18,7 +18,7 @@ import {store} from "./store";
 
 Vue.use(IconsPlugin)
 Vue.use(VueAxios, axios)
-axios.defaults.baseURL = 'http://localhost:8080'
+axios.defaults.baseURL = 'http://3.39.4.23:8080'
 axios.defaults.params = {}
 Vue.use(vuex)
 

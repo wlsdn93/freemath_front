@@ -7,7 +7,6 @@ import Login from "@/views/Login";
 import Callback from "@/views/Callback";
 import Ghost from "@/views/Ghost";
 import Welcome from "@/views/Welcome";
-import Test from "@/views/Test";
 import Update from "@/views/Update";
 
 Vue.use(VueRouter)
@@ -52,10 +51,6 @@ const router = new VueRouter({
         {
             path:"/",
             component: Welcome
-        },
-        {
-            path:"/test",
-            component: Test
         },
     ]}
 )

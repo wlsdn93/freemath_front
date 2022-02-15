@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input class="login-button" type="image" src="http://localhost:8080/naverBtnImage" @click="NaverLogin" alt="">
+    <input class="login-button" type="image" src="http://3.39.4.23:8080/naverBtnImage" @click="NaverLogin" alt="">
   </div>
 </template>
 <script>
@@ -10,7 +10,7 @@ export default {
     return {
 
       NAVER_client_id: "NK0288EkGrDIjENufyxP",
-      NAVER_callbackUrl: 'http://localhost:8081/callback/naver',
+      NAVER_callbackUrl: 'http://3.39.4.23/callback/naver',
       NAVER_LOGIN_URL: 'https://nid.naver.com/oauth2.0/authorize?response_type=code',
 
       state: '',
