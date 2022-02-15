@@ -10,7 +10,7 @@ export default {
     return {
 
       NAVER_client_id: "NK0288EkGrDIjENufyxP",
-      NAVER_callbackUrl: 'http://3.39.4.23/callback/naver',
+      NAVER_callbackUrl: 'http://freemath.online/callback/naver',
       NAVER_LOGIN_URL: 'https://nid.naver.com/oauth2.0/authorize?response_type=code',
 
       state: '',
