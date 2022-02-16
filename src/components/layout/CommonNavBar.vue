@@ -80,6 +80,7 @@ export default {
   top: 5px;
   left: 15px;
   font-size: xx-large;
+  cursor: hand;
 }
 .user-info-text {
   font-size: large;
@@ -96,5 +97,6 @@ export default {
   color: aliceblue;
   background-color: black;
   border: solid;
+  cursor: hand;
 }
 </style>
