@@ -2,12 +2,14 @@
   <div class="background">
     <div class="navbar-custom">
       <div class="navbar-container">
-        <a class="main-title" @click="toHome()">
-         기출 저장소
-        </a>
+        <div>
+          <a class="main-title" @click="toHome()">
+           기출 저장소
+          </a>
+        </div>
         <ul class="nav justify-content-center" style="font-size: x-large; font-family: BMJUA">
           <li class="nav-item" style="color: crimson; margin: 10px"> 한 문제만 </li>
-          <li class="nav-item" style="color: orangered; margin: 10px"> 더 </li>
+          <li class="nav-item" style="color: yellow; margin: 10px"> 더 </li>
           <li class="nav-item" style="color: yellow; margin: 10px">  풀자 !! </li>
         </ul>
         <div class="user-info-text">
@@ -80,7 +82,7 @@ export default {
   top: 5px;
   left: 15px;
   font-size: xx-large;
-  cursor: hand;
+  cursor: pointer
 }
 .user-info-text {
   font-size: large;
