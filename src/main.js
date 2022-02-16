@@ -18,7 +18,7 @@ import {store} from "./store";
 
 Vue.use(IconsPlugin)
 Vue.use(VueAxios, axios)
-axios.defaults.baseURL = 'https://3.39.4.23:8090'
+axios.defaults.baseURL = 'https://freemath.online:8090'
 axios.defaults.params = {}
 Vue.use(vuex)
 

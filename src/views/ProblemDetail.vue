@@ -83,8 +83,8 @@ export default {
     })
   },
   created() {
-    this.problemImageUrl = "https://3.39.4.23:8090/problem-image/" + this.problemId
-    this.solutionImageUrl = "https://3.39.4.23:8090/solution-image/" + this.problemId
+    this.problemImageUrl = "https://freemath.online:8090/problem-image/" + this.problemId
+    this.solutionImageUrl = "https://freemath.online:8090/solution-image/" + this.problemId
   },
   methods: {
     onSubmit() {
