@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input class="login-button" type="image" src="https://3.39.4.23:8090/naverBtnImage" @click="NaverLogin" alt="">
+    <input class="login-button" type="image" src="https://freemath.online:8090/naverBtnImage" @click="NaverLogin" alt="">
   </div>
 </template>
 <script>
