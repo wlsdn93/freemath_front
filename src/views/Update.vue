@@ -73,7 +73,7 @@
                  @change="onChangeSolution">
         </b-form-group>
       </div>
-      <b-button type="submit" variant="primary" style="margin: 20px; font-size: x-large">업로드</b-button>
+      <b-button type="submit" variant="primary" style="margin: 20px; font-size: x-large">업데이트</b-button>
     </b-form>
   </div>
 </template>
