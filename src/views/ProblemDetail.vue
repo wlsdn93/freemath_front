@@ -9,14 +9,23 @@
     <div class="inner-container">
       <div class="inner-item-form">
         <b-form @submit.prevent="onSubmit" style="display: grid; grid-template-columns: 80% 20%">
-          <b-form-group v-if="authenticated" id="input-group-1">
+           <b-form-group v-if="selectedAnswerType==='choice'" v-slot="{ ariaDescribedby }">
+            <b-form-radio-group
+                v-model="userAnswer"
+                :options="choices"
+                :aria-describedby="ariaDescribedby"
+                name="userAnswer"
+                plain
+            ></b-form-radio-group>
+          </b-form-group>
+          <b-form-group v-if="selectedAnswerType==='shortAnswer'" id="input-group-2" label-for="input-2">
             <b-form-input
-                v-model="answer" id="answer" type="text"
+                v-model="userAnswer" id="answer" type="text"
                 placeholder="정답을 입력하세요" required
-                name="title" style="width: 300px">
+                name="userAnswer">
             </b-form-input>
           </b-form-group>
-          <b-button v-if="authenticated" type="submit" variant="primary" style="width: 50px; margin-left: 20px; font-size: small;">제출</b-button>
+          <b-button type="submit" variant="primary" style="width: 50px; margin-left: 20px; font-size: small;">제출</b-button>
        </b-form>
       </div>
     </div>
@@ -49,6 +58,7 @@ export default {
       subject: '',
       status: this.$store.state.status,
       problemId: this.$route.params.valueOf().problemId,
+      userAnswer: '',
       answer: '',
       problemImageUrl: '',
       solutionImageUrl: '',
@@ -56,6 +66,14 @@ export default {
       authenticated: '',
       accessToken: '',
       showSolution: false,
+      selectedAnswerType: '',
+      choices: [
+        { text: "1", value: "1" },
+        { text: "2", value: "2" },
+        { text: "3", value: "3" },
+        { text: "4", value: "4" },
+        { text: "5", value: "5" },
+      ],
     }
   },
   beforeMount() {
@@ -78,8 +96,12 @@ export default {
     })
     .then((response)=>{
       this.title = response.data.title
-      this.difficulty = response.data.difficulty
-      this.subject = response.data.subject
+      this.selectedAnswerType = response.data.answerType
+      if (this.selectedAnswerType==='choice') {
+        this.answer = response.data.answer
+      } else {
+        this.answer = response.data.answer
+      }
     })
   },
   created() {
@@ -88,13 +110,25 @@ export default {
   },
   methods: {
     onSubmit() {
-      const uri = "/user/problems/" + this.problemId
-      this.axios.post(uri, '', {
-        params: {
-          answer: this.answer,
-          accessToken: this.accessToken
-        }
-      }).then(() => window.location.replace("/problems"))
+      if (this.answer === this.userAnswer) {
+        alert("정답 !")
+      } else {
+        alert("다시 풀어 !")
+      }
+      if (this.authenticated === true) {
+        const uri = "/user/problems/" + this.problemId
+        this.axios.post(uri, '', {
+          params: {
+            answer: this.userAnswer,
+            accessToken: this.accessToken
+          }
+        }).then(() =>
+           this.$router.push("/problems")
+        )
+      } else {
+        alert("로그인을 하셔야 결과가 기록됩니다.")
+        this.$router.push("/problems")
+      }
     },
     toBoard() {
       this.$router.push("/problems")
@@ -150,7 +184,8 @@ export default {
   margin-right: auto;
 }
 .inner-container {
-
+  margin-top: auto;
+  margin-bottom: auto;
 }
 .problem-detail {
   font-size: larger;
@@ -164,7 +199,9 @@ export default {
   text-align: center;
 }
 .item-problem-image {
- text-align: center;
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 .item-button {
   position: relative;
