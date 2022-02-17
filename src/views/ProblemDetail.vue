@@ -1,11 +1,11 @@
 <template>
   <div class="outer-container">
+    <div class="problem-detail">
+      <p> {{ title }} </p>
+    </div>
     <div class="item-problem-image">
       <img :src=problemImageUrl alt="no image" class="problem-image" />
     </div>
-      <div class="problem-detail">
-        <p> {{ title }} </p>
-      </div>
     <div class="inner-container">
       <div class="inner-item-form">
         <b-form @submit.prevent="onSubmit" style="display: grid; grid-template-columns: 80% 20%">
@@ -174,7 +174,7 @@ export default {
 .outer-container {
   max-width: 400px;
   display: grid;
-  grid-template-rows: 70% 5% 5% 10%;
+  grid-template-rows: 3% 70% 5% 5% 10%;
   font-family: BMJUA;
   height: 800px;
   width: 380px;
@@ -189,6 +189,7 @@ export default {
 }
 .problem-detail {
   font-size: larger;
+  font-weight: bold;
 }
 .button-container {
   margin: 5px;
