@@ -102,6 +102,7 @@ export default {
           { text: "2", value: "2" },
           { text: "3", value: "3" },
           { text: "4", value: "4" },
+          { text: "5", value: "5" },
       ],
       selected: '',
       difficulties: [
@@ -109,10 +110,10 @@ export default {
           { text: "2점", value: "2" },
           { text: "3점", value: "3" },
           { text: "4점", value: "4" },
-          { text: "5점", value: "5" }
       ],
       subjects: [
           { text: "Subject", value: null},
+          { text: "고등수학", value: "BasicMath"},
           { text: "수학1", value: "CommonMath1"},
           { text: "수학2", value: "CommonMath2"},
           { text: "미분과 적분", value: "Calculus"},
