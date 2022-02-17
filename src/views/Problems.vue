@@ -42,8 +42,8 @@
         <img v-if="problem.status" src="../assets/done.svg">
         <img v-if="problem.status===false" src="../assets/wrong.svg">
       </td>
-      <td style="text-align: center" > {{ problem.problemId }} </td>
-      <td style="text-align: center" ><a @click="toProblemDetail(problem.problemId)"> {{ problem.title }} </a></td>
+      <td style="text-align: center; cursor: pointer" @click="toProblemDetail(problem.problemId)"> {{ problem.problemId }} </td>
+      <td style="text-align: center; cursor: pointer" @click="toProblemDetail(problem.problemId)"> {{ problem.title }}</td>
       <td style="text-align: center" > {{ problem.difficulty }} </td>
     </tr>
     </tbody>
