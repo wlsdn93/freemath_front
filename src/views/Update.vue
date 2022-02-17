@@ -181,7 +181,7 @@ export default {
       formData.append('solutionImage', this.solutionImage)
       formData.append('solutionImageName', this.solutionImageName)
 
-      this.axios.post("/admin/upload", formData, {
+      this.axios.post("/admin/update/" + this.problemId, formData, {
         params: {
           accessToken: this.accessToken
         }
