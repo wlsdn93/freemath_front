@@ -105,6 +105,7 @@ export default {
       authenticated: '',
       subjects: [
           {"과목" : null},
+          {"고등수학": "BasicMath"},
           {"수학1" : "CommonMath1"},
           {"수학2" : "CommonMath2"},
           {"미분과 적분" : "Calculus"},

@@ -113,6 +113,7 @@ export default {
       ],
       subjects: [
           { text: "Subject", value: null},
+          { text: "고등수학", value: "BasicMath"},
           { text: "수학1", value: "CommonMath1"},
           { text: "수학2", value: "CommonMath2"},
           { text: "미분과 적분", value: "Calculus"},
