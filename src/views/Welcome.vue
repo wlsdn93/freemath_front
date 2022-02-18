@@ -9,7 +9,7 @@
   <div class="text">
     <p @click="toEBS" style="cursor: pointer; color: blue"> 문제 및 해설의 출처는 EBS입니다. </p>
     <p> 본 사이트는 "평가원, 수능" 수학 기출 문제들을 난이도, 과목 별로 한 문제씩 정리해둔 저장소입니다 </p>
-    <p> 모든 문제는 누구나 무료로 확인할 수 있고, 문제를 풀어볼 수 있습니다. 단 로그인이 안 돼 있는 경우 결과는 저장되지 않습니다. </p>
+    <p> 모든 문제는 누구나 확인할 수 있고, 풀어볼 수 있습니다. 단 로그인이 안 돼 있는 경우 결과는 저장되지 않습니다. </p>
   </div>
 </div>
 </template>
@@ -39,12 +39,12 @@ export default {
 .title {
   display: grid;
   grid-template-rows: 60% 40%;
-  background-color: black;
+  background-color: #2d2d2d;
   justify-content: center;
 }
 .b-skeleton-button {
   color: aliceblue;
-  background-color: black;
+  background-color: #2d2d2d;
   border: solid;
   cursor: hand;
   width: 250px;
