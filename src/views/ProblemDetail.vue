@@ -110,11 +110,6 @@ export default {
   },
   methods: {
     onSubmit() {
-      if (this.answer === this.userAnswer) {
-        alert("정답 !")
-      } else {
-        alert("다시 풀어 !")
-      }
       if (this.authenticated === true) {
         const uri = "/user/problems/" + this.problemId
         this.axios.post(uri, '', {
@@ -123,11 +118,25 @@ export default {
             accessToken: this.accessToken
           }
         }).then(() =>
-           this.$router.push("/problems")
+           this.checkAnswer()
         )
-      } else {
-        alert("로그인을 하셔야 결과가 기록됩니다.")
+      }
+      else {
+        alert("로그인시 결과를 저장 할 수 있습니다.")
+      }
+      this.checkAnswer()
+    },
+    checkAnswer() {
+      if (this.answer === this.userAnswer) {
+        alert("정답 !")
         this.$router.push("/problems")
+      } else {
+        if (confirm("다시 풀어볼까?")) {
+          this.userAnswer = '';
+          this.$router.push("/problems/"+this.problemId)
+        } else {
+          this.$router.push("/problems")
+        }
       }
     },
     toBoard() {
