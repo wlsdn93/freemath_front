@@ -169,7 +169,7 @@ export default {
       this.page > 0 ? this.page -= 1 : alert("첫 번째 페이지 입니다.")
     },
     next() {
-      this.page < this.totalPage ? this.page += 1 : alert("마지막 페이지 입니다.")
+      this.page < this.totalPage -1  ? this.page += 1 : alert("마지막 페이지 입니다.")
     },
     last() {
       this.page = this.totalPage - 1
