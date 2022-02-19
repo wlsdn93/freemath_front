@@ -123,8 +123,8 @@ export default {
       }
       else {
         alert("로그인시 결과를 저장 할 수 있습니다.")
+        this.checkAnswer()
       }
-      this.checkAnswer()
     },
     checkAnswer() {
       if (this.answer === this.userAnswer) {
