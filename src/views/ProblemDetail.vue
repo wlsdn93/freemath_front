@@ -182,31 +182,31 @@ export default {
 <style scoped>
 .outer-container {
   max-width: 400px;
-  display: grid;
-  grid-template-rows: 3% 70% 5% 5% 10%;
+  display: flex;
+  flex-direction: column;
   font-family: BMJUA;
-  height: 800px;
   width: 380px;
   border: solid black;
   border-radius: 10px 10px 10px 10px;
   padding: 10px;
+  height: auto;
   margin-right: auto;
 }
 .inner-container {
   margin-top: auto;
-  margin-bottom: auto;
+  margin-bottom: 10px;
 }
 .problem-detail {
   font-size: larger;
   font-weight: bold;
 }
 .button-container {
-  margin: 5px;
+  margin: 10px;
 }
 .problem-image {
   max-width: 100%;
-  max-height: 100%;
   text-align: center;
+  margin-bottom: 10px;
 }
 .item-problem-image {
   text-align: center;
