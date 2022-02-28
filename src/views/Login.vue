@@ -1,6 +1,17 @@
 <template>
-  <div>
-    <input class="login-button" type="image" src="https://freemath.online:8090/naverBtnImage" @click="NaverLogin" alt="">
+  <div class="login-background">
+    <div class="login-container">
+      <div style="display: flex">
+        <img class="logo" src="../assets/freemath_black.svg">
+      </div>
+      <div>
+        <hr class="hr-line">
+      </div>
+      <div class="login-button-box">
+        <input class="login-button" type="image" src="https://freemath.online:8090/naverBtnImage" @click="NaverLogin" alt="">
+        <input v-show="false" class="login-button" type="image" src="https://freemath.online:8090/kakaoBtnImage" @click="NaverLogin" alt="">
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -36,6 +47,29 @@ export default {
 </script>
 <style scoped>
 .login-button {
-  margin: 50px;
+  margin: auto;
+}
+.login-container {
+  border: solid dimgrey 5px;
+  border-radius: 15px 15px 15px 15px;
+  width: 500px;
+  height: 700px;
+  margin-top: auto;
+  margin-bottom: auto;
+  display: grid;
+  grid-template-rows: 30% 10% 40%;
+  background-color: ghostwhite;
+}
+.login-background {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+.logo {
+  margin: auto;
+}
+.login-button-box {
+  display: grid;
+  grid-template-rows: 50% 50%;
 }
 </style>
